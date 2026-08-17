@@ -1,0 +1,32 @@
+name: Markdown check
+
+on:
+  push:
+    paths:
+      - "**/*.md"
+      - "src/localization_learning/markdown_check.py"
+      - ".github/workflows/markdown_check.yml"
+  pull_request:
+    paths:
+      - "**/*.md"
+      - "src/localization_learning/markdown_check.py"
+      - ".github/workflows/markdown_check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Check Markdown basics
+        run: python src/localization_learning/markdown_check.py .

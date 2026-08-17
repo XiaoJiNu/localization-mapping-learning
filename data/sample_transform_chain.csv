@@ -1,0 +1,7 @@
+timestamp_s,target_frame,source_frame,x_m,y_m,z_m,yaw_rad,kind
+0.0,map,odom,0.0,0.0,0.0,0.0,dynamic
+0.0,odom,base,0.0,0.0,0.0,0.0,dynamic
+0.0,base,lidar,0.0,1.2,1.5,0.0,static
+1.0,map,odom,0.05,-0.02,0.0,0.01,dynamic
+1.0,odom,base,0.10,2.00,0.0,-0.05,dynamic
+1.0,base,lidar,0.0,1.2,1.5,0.0,static

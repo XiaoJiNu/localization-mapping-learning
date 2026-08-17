@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.venv/
+venv/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated experiment outputs
+outputs/
+checkpoints/
+*.log
+
+# ROS and colcon generated directories
+ros_ws/build/
+ros_ws/install/
+ros_ws/log/
+
+# Large robotics datasets and model artifacts
+*.bag
+*.db3
+*.mcap
+*.pcd
+*.ply
+*.onnx
+*.pt
+data/raw/**
+data/processed/**
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/

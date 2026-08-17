@@ -1,0 +1,31 @@
+name: 实验记录
+description: 设计、复现或改进一个最小实验
+title: "[Experiment] "
+labels: ["experiment"]
+body:
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: 问题与假设
+      description: 实验要验证什么？预期现象是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: inputs
+    attributes:
+      label: 输入与约定
+      description: 数据来源、坐标系、时间、单位和参数。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 给出命令和最小环境信息。
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: 结果与解释
+      description: 观察结果、误差、反例和下一步。

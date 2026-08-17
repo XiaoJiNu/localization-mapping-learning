@@ -1,0 +1,31 @@
+name: 学习单元
+description: 规划或复盘一个定位建图学习单元
+title: "[Unit] "
+labels: ["learning"]
+body:
+  - type: input
+    id: question
+    attributes:
+      label: 核心问题
+      description: 这个单元最终要能够独立回答什么问题？
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 掌握证据
+      description: 计划完成哪些推导、实验、闭卷测验和复习？
+    validations:
+      required: true
+  - type: textarea
+    id: gaps
+    attributes:
+      label: 已知薄弱点
+      description: 当前容易混淆或需要重点验证的内容。
+  - type: textarea
+    id: done
+    attributes:
+      label: 过关标准
+      description: 达到什么可观察条件才算完成？
+    validations:
+      required: true

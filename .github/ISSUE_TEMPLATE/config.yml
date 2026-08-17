@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 阅读学习路线
+    url: https://github.com/XiaoJiNu/localization-mapping-learning/blob/main/ROADMAP.md
+    about: 提交问题前可先查看当前范围和阶段目标
