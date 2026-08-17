@@ -1,6 +1,6 @@
 # 参考 Rahul 文章的写作方法：诊断复盘文章重写指南
 
-> 本文只分析写作方法，作为后续重写 [`00_diagnostic_review.md`](00_diagnostic_review.md) 的依据。本轮不修改原文章；等这套方法审核通过后，再开始重写和配图。
+> 本文记录写作方法，作为改写 [`00_diagnostic_review.md`](00_diagnostic_review.md) 的依据。完整原文保持不变；按本指南另行完成的版本见[社交平台精简版](00_diagnostic_review_social.md)。
 
 参考文章：Rahul，[*How To Learn Anything 10x Faster Using Claude*](https://x.com/sairahul1/article/2068250224532050089)。
 
@@ -319,4 +319,4 @@ Rahul 不只解释学习方法，还给出六段可复制提示词。读者即�
 
 > 先用真实错误吸引读者，再讲我是怎样诊断的；先给关键结论，再把完整证据交给仓库；每一节只解决一个问题，并让读者带走一个可以立即执行的动作。
 
-这套方法审核通过后，再据此重写正文并确定配图的具体文案与画面。
+后续继续按这套原则迭代社交平台版本，并通过实际发布预览检查字号、裁切和链接。
