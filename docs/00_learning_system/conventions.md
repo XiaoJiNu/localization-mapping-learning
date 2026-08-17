@@ -4,30 +4,37 @@
 
 ## 坐标轴
 
-- 车辆坐标系采用**右—前—上**：`x` 向右、`y` 向前、`z` 向上。
-- 使用右手系，因此绕 `z` 轴的正方向由右手定则确定。
-- 二维示例的偏航角 `yaw` 是绕 `+z` 的旋转。
+- 车辆坐标系采用**右—前—上**：$x$ 向右、$y$ 向前、$z$ 向上。
+- 使用右手系，因此绕 $z$ 轴的正方向由右手定则确定。
+- 二维示例的偏航角 $\mathrm{yaw}$ 是绕 $+z$ 的旋转。
 
 ## 向量与变换
 
 - 向量使用列向量。
-- `{}^{A}\mathbf{p}` 表示点 `p` 在坐标系 `A` 中的坐标。
-- `{}^{A}\mathbf{T}_{B}` 将 `B` 中的坐标映射到 `A`：
+- ${}^{A}\mathbf p$ 表示点 $\mathbf p$ 在坐标系 $A$ 中的坐标。
+- ${}^{A}\mathbf T_B$ 将坐标系 $B$ 中的坐标映射到坐标系 $A$：
 
   $$
-  {}^{A}\mathbf{p} = {}^{A}\mathbf{T}_{B}\,{}^{B}\mathbf{p}
+  {}^{A}\mathbf p = {}^{A}\mathbf T_B\,{}^{B}\mathbf p
   $$
 
 - 变换链按映射顺序从右向左作用：
 
   $$
-  {}^{A}\mathbf{T}_{C} = {}^{A}\mathbf{T}_{B}\,{}^{B}\mathbf{T}_{C}
+  {}^{A}\mathbf T_C = {}^{A}\mathbf T_B\,{}^{B}\mathbf T_C
   $$
 
+- 箭头必须注明语义，不能代替上面的变换符号：
+  - 点坐标的映射路径按“源坐标系 $\to$ 目标坐标系”书写，例如
+    $\mathtt{base}\to\mathtt{odom}\to\mathtt{map}$；
+  - TF 树关系按“父帧 $\to$ 子帧”书写，例如
+    $\mathtt{map}\to\mathtt{odom}\to\mathtt{base}$。
+- 在变换上下标中，命名坐标系使用 $\mathrm{map}$ 这类罗马体；单独书写
+  ROS 帧名或路径时使用 $\mathtt{map}$ 这类等宽体。
 - 齐次变换写作：
 
   $$
-  \mathbf{T}=\begin{bmatrix}\mathbf{R}&\mathbf{t}\\\mathbf{0}^{\mathsf T}&1\end{bmatrix}
+  \mathbf T=\begin{bmatrix}\mathbf R&\mathbf t\\\mathbf 0^{\mathsf T}&1\end{bmatrix}
   $$
 
 ## 时间与单位

@@ -6,7 +6,8 @@
 当前实验：
 
 - [`exp_001_transform_chain`](exp_001_transform_chain/)：验证
-  `base → odom → map` 逐步变换与直接复合变换一致。
+  点坐标沿 $\mathtt{base}\to\mathtt{odom}\to\mathtt{map}$ 逐步映射的结果
+  与直接复合变换一致。
 
 从仓库根目录运行：
 

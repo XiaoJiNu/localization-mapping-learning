@@ -49,6 +49,43 @@ class MarkdownCheckTest(unittest.TestCase):
 
             self.assertEqual(check_file(source), [])
 
+    def test_github_math_delimiters_are_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.md"
+            source.write_text(
+                "Inline $x^2$.\n\n$$\n"
+                "\\begin{bmatrix}1\\\\[1mm]2\\end{bmatrix}\n"
+                "$$\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(check_file(source), [])
+
+    def test_legacy_math_delimiters_are_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.md"
+            source.write_text(
+                "Inline \\(x^2\\).\n\n\\[\ny=2\n\\]\n",
+                encoding="utf-8",
+            )
+
+            errors = check_file(source)
+
+            self.assertEqual(len(errors), 3)
+            self.assertTrue(
+                all("unsupported GitHub math delimiter" in error for error in errors)
+            )
+
+    def test_legacy_delimiter_examples_in_inline_code_are_ignored(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.md"
+            source.write_text(
+                "Do not use `\\(...\\)` or `\\[...\\]`.\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(check_file(source), [])
+
 
 if __name__ == "__main__":
     unittest.main()

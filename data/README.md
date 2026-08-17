@@ -6,12 +6,18 @@
 
 `sample_transform_chain.csv` 是人为构造的坐标变换序列，用于验证：
 
-- `map ← odom ← base ← lidar` 的变换复合；
+- 点坐标沿
+  $\mathtt{lidar}\to\mathtt{base}\to\mathtt{odom}\to\mathtt{map}$
+  的映射与变换复合；
 - 动态变换按时间戳配对；
 - 静态外参与动态位姿的区别；
-- 修改 `map→odom` 时如何保持 `odom→base` 连续。
+- 修改 ${}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}$ 时，如何保持
+  ${}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}$ 连续。
 
-每行的 `target_frame` 和 `source_frame` 表示 `{}^{target}T_{source}`。平移 `x_m/y_m/z_m` 表达在目标坐标系中；`yaw_rad` 绕目标坐标系 `+z` 轴，坐标轴为右—前—上。数据是纯合成值，不对应任何车辆、地点或真实项目。
+每行的 `target_frame` 和 `source_frame` 表示
+${}^{\mathrm{target}}\mathbf T_{\mathrm{source}}$。平移列 `x_m`、`y_m`、`z_m`
+表达在目标坐标系中；`yaw_rad` 表示绕目标坐标系 $+z$ 轴的旋转，坐标轴为
+右—前—上。数据是纯合成值，不对应任何车辆、地点或真实项目。
 
 ## 数据管理规则
 

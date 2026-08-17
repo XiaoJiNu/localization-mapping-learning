@@ -2,17 +2,30 @@
 
 ## 要回答的问题
 
-已知 `base` 中的点、`T_odom_base` 和 `T_map_odom`：
+已知在 $\mathrm{base}$ 坐标系中表示的点 ${}^{\mathrm{base}}\mathbf p$、
+${}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}$ 和
+${}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}$：
 
-1. 如何把点依次变换到 `odom`、`map`？
-2. 如何复合得到 `T_map_base`？
+1. 如何把点依次变换到 $\mathrm{odom}$、$\mathrm{map}$ 坐标系？
+2. 如何复合得到 ${}^{\mathrm{map}}\mathbf T_{\mathrm{base}}$？
 3. 为什么逐步计算与直接计算应当一致？
 
 ## 约定
 
 - 使用右手坐标系、列向量和齐次变换左乘。
-- `T_a_b` 把 B 系坐标变换到 A 系：`p_a = T_a_b p_b`。
-- 因此 `T_map_base = T_map_odom T_odom_base`。
+- ${}^{A}\mathbf T_B$ 把在坐标系 $B$ 中表示的点变换到坐标系 $A$：
+
+$$
+{}^{A}\mathbf p = {}^{A}\mathbf T_B\,{}^{B}\mathbf p.
+$$
+
+- 因此：
+
+$$
+{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
+= {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}\,
+  {}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}.
+$$
 
 ## 运行
 

@@ -8,6 +8,8 @@ from pathlib import Path
 from urllib.parse import unquote
 
 MARKDOWN_LINK = re.compile(r"(?<!!)\[[^]]+\]\(([^)]+)\)")
+LEGACY_MATH_DELIMITER = re.compile(r"(?<!\\)\\(?:\(|\)|\[|\])")
+INLINE_CODE = re.compile(r"`[^`]*`")
 
 IGNORED_PARTS = {
     ".git",
@@ -63,7 +65,16 @@ def check_file(path: Path) -> list[str]:
             continue
 
         if active_fence is None:
-            for match in MARKDOWN_LINK.finditer(line):
+            prose_line = INLINE_CODE.sub("", line)
+            legacy_delimiters = LEGACY_MATH_DELIMITER.findall(prose_line)
+            if legacy_delimiters:
+                rendered = ", ".join(f"`{item}`" for item in legacy_delimiters)
+                errors.append(
+                    f"{path}:{line_number}: unsupported GitHub math delimiter(s): "
+                    f"{rendered}; use $...$ or $$...$$"
+                )
+
+            for match in MARKDOWN_LINK.finditer(prose_line):
                 raw_target = match.group(1).strip()
                 # Ignore an optional Markdown title after the URL.
                 target = raw_target.split(maxsplit=1)[0].strip("<>")

@@ -83,20 +83,20 @@ flowchart TD
 
 第一题给出：
 
-\[
-{}^{map}\mathbf T_{odom},\qquad
-{}^{odom}\mathbf T_{base}
-\]
+$$
+{}^{\mathrm{map}}\mathbf{T}_{\mathrm{odom}}, \qquad
+{}^{\mathrm{odom}}\mathbf{T}_{\mathrm{base}}
+$$
 
-要求把一个在 \(base\) 坐标系中表示的点变换到 \(map\) 坐标系。我正确写出了：
+要求把一个在 $\mathrm{base}$ 坐标系中表示的点变换到 $\mathrm{map}$ 坐标系。我正确写出了：
 
-\[
-{}^{map}\mathbf p
+$$
+{}^{\mathrm{map}}\mathbf{p}
 =
-{}^{map}\mathbf T_{odom}
-{}^{odom}\mathbf T_{base}
-{}^{base}\mathbf p
-\]
+{}^{\mathrm{map}}\mathbf{T}_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf{T}_{\mathrm{base}}
+{}^{\mathrm{base}}\mathbf{p}
+$$
 
 我的解释是，相邻上下标可以像分子、分母一样“消掉”，但我无法从数学上解释为什么变换采用左乘。
 
@@ -104,29 +104,29 @@ ChatGPT 指出，“消掉”只是一种检查坐标链是否连续的记忆方
 
 随后，我在求逆时犯了更关键的错误：我把完整齐次变换矩阵的逆写成了转置。我混淆了旋转矩阵和刚体变换矩阵：
 
-\[
-\mathbf R^{-1}=\mathbf R^\mathsf T
-\]
+$$
+\mathbf{R}^{-1}=\mathbf{R}^{\mathsf{T}}
+$$
 
 只对旋转矩阵成立。对于：
 
-\[
-\mathbf T=
+$$
+\mathbf{T}=
 \begin{bmatrix}
-\mathbf R&\mathbf t\\
-\mathbf 0^\mathsf T&1
+\mathbf{R} & \mathbf{t}\\
+\mathbf{0}^{\mathsf{T}} & 1
 \end{bmatrix}
-\]
+$$
 
 其逆为：
 
-\[
-\mathbf T^{-1}=
+$$
+\mathbf{T}^{-1}=
 \begin{bmatrix}
-\mathbf R^\mathsf T&-\mathbf R^\mathsf T\mathbf t\\
-\mathbf 0^\mathsf T&1
+\mathbf{R}^{\mathsf{T}} & -\mathbf{R}^{\mathsf{T}}\mathbf{t}\\
+\mathbf{0}^{\mathsf{T}} & 1
 \end{bmatrix}
-\]
+$$
 
 这组问题让我意识到：**能够熟练写出常见坐标链，不代表已经理解变换约定、复合和求逆。**如果我只是让 ChatGPT 从头讲一遍坐标变换，很可能会因为前半部分“看得懂”，而错过这个真正的漏洞。
 
@@ -134,46 +134,46 @@ ChatGPT 指出，“消掉”只是一种检查坐标链是否连续的记忆方
 
 线性代数诊断给出了一个三行两列的矩阵，要求求解：
 
-\[
-\hat{\mathbf x}
+$$
+\hat{\mathbf{x}}
 =
-\arg\min_{\mathbf x}
-\|\mathbf A\mathbf x-\mathbf b\|_2^2
-\]
+\underset{\mathbf{x}}{\operatorname{arg\,min}}\;
+\lVert\mathbf{A}\mathbf{x}-\mathbf{b}\rVert_2^2
+$$
 
 我首先问：“什么是正规方程？”这直接说明我对最小二乘的基础不熟悉。随后又出现了几类不同错误：
 
-- 不知道求梯度时为什么会出现 \(\mathbf A^\mathsf T\)；
+- 不知道求梯度时为什么会出现 $\mathbf{A}^{\mathsf{T}}$；
 - 求解过程中算出了逆矩阵，却漏乘右侧向量；
 - 知道可以用行列式判断可逆性，却把“行列式非零”错误地说成“不可逆”；
 - 一开始不能准确解释残差的几何意义。
 
 经过计算，最终得到：
 
-\[
-\hat{\mathbf x}
+$$
+\hat{\mathbf{x}}
 =
 \begin{bmatrix}
-\frac23\\[1mm]
-\frac53
+\frac{2}{3}\\[1mm]
+\frac{5}{3}
 \end{bmatrix},
 \qquad
-\mathbf r
+\mathbf{r}
 =
 \begin{bmatrix}
-\frac13\\[1mm]
-\frac13\\[1mm]
--\frac13
+\frac{1}{3}\\[1mm]
+\frac{1}{3}\\[1mm]
+-\frac{1}{3}
 \end{bmatrix}
-\]
+$$
 
 并验证：
 
-\[
-\mathbf A^\mathsf T\mathbf r=\mathbf 0
-\]
+$$
+\mathbf{A}^{\mathsf{T}}\mathbf{r}=\mathbf{0}
+$$
 
-这表示残差与 \(\mathbf A\) 的列空间正交，而 \(\mathbf A\hat{\mathbf x}\) 是 \(\mathbf b\) 在该列空间上的正交投影。
+这表示残差与 $\mathbf{A}$ 的列空间正交，而 $\mathbf{A}\hat{\mathbf{x}}$ 是 $\mathbf{b}$ 在该列空间上的正交投影。
 
 这次过程使我看到，所谓“线性代数基础”至少包含三个层次：能完成计算、能解释公式来源、能理解几何意义。只完成第一层，面对点云匹配、重投影误差、加权最小二乘或系统退化时仍然会遇到困难。
 
@@ -181,56 +181,58 @@ ChatGPT 指出，“消掉”只是一种检查坐标链是否连续的记忆方
 
 概率估计题给出一维位置先验：
 
-\[
-x\sim\mathcal N(10,4)
-\]
+$$
+x\sim\mathcal{N}(10, 4)
+$$
 
-传感器测量为 \(z=12\)，测量噪声方差为 \(1\)。ChatGPT 先不让我计算，只问融合结果更接近 10 还是 12。
+题目没有指定物理单位，因此这里把 $x$ 和后面的 $z$ 视为使用同一抽象长度单位；正态分布的第二个参数 $4$ 表示方差，单位是该抽象长度单位的平方。
+
+传感器测量为 $z=12$，测量噪声方差为 $1$。ChatGPT 先不让我计算，只问融合结果更接近 10 还是 12。
 
 我的回答是更接近 10，因为“正态分布相加后的均值是均值相加”。这个答案暴露了一个本质混淆：
 
-- \(Z=X+V\) 是随机变量相加；
-- \(p(x\mid z=12)\) 是获得测量后的条件估计。
+- $Z=X+V$ 是随机变量相加；
+- $p(x\mid z=12)$ 是获得测量后的条件估计。
 
-本题属于后者。由于测量方差 \(1\) 小于先验方差 \(4\)，测量更可靠，融合结果应该更接近 12。
+本题属于后者。由于测量方差 $1$ 小于先验方差 $4$，测量更可靠，融合结果应该更接近 12。
 
 按照方差倒数分配信息权重后，先验和测量的归一化权重分别为：
 
-\[
-w_{prior}=\frac15,
+$$
+w_{\mathrm{prior}}=\frac{1}{5},
 \qquad
-w_{measurement}=\frac45
-\]
+w_{\mathrm{measurement}}=\frac{4}{5}
+$$
 
 因此后验均值与方差为：
 
-\[
-\hat x=\frac15\times10+\frac45\times12=11.6
-\]
+$$
+\hat{x}=\frac{1}{5}\times 10+\frac{4}{5}\times 12=11.6
+$$
 
-\[
-\sigma_{post}^2
+$$
+\sigma_{\mathrm{post}}^2
 =
-\left(\frac14+1\right)^{-1}
+\left(\frac{1}{4}+1\right)^{-1}
 =0.8
-\]
+$$
 
-后来再把测量方差增大到 \(100\)，我已经能够判断融合结果会接近先验值 10，融合方差会接近但略小于 4。继续转换到卡尔曼更新形式时，我也算出了增益 \(K=0.8\)，并理解了创新表示测量与预测测量之间的差异。
+后来再把测量方差增大到 $100$，我已经能够判断融合结果会接近先验值 10，融合方差会接近但略小于 4。继续转换到卡尔曼更新形式时，我也算出了增益 $K=0.8$，并理解了创新表示测量与预测测量之间的差异。
 
 这一组问题说明：**主动考试不仅能发现“不会”，还可以定位错误知识模型究竟错在哪里。**如果只是计算后验均值，我可能算对；先问方向和原因，才暴露出我混淆了两个概率问题。
 
 ### 4. 我曾把 IMU 的估计结果当成直接测量量
 
-传感器题问 IMU 和轮速计直接测量什么。我最初回答，IMU 测量车辆的姿态，包括 \(x、y\) 和航向角；轮速计测量车轮转速。
+传感器题问 IMU 和轮速计直接测量什么。我最初回答，IMU 测量车辆的姿态，包括 $x$、$y$ 和航向角；轮速计测量车轮转速。
 
-这里包含两个问题：\(x、y\) 是位置，不是姿态；更重要的是，IMU 并不直接测量位置和姿态。它通常直接测量：
+这里包含两个问题：$x$、$y$ 是位置，不是姿态；更重要的是，IMU 并不直接测量位置和姿态。它通常直接测量：
 
 - 陀螺仪：三轴角速度；
 - 加速度计：三轴比力。
 
 位置需要经过一条完整的估计链路得到：
 
-\[
+$$
 \text{角速度}
 \rightarrow
 \text{姿态}
@@ -242,15 +244,15 @@ w_{measurement}=\frac45
 \text{速度}
 \rightarrow
 \text{位置}
-\]
+$$
 
 后续追问又让我进一步理解了几个容易混淆的问题：
 
-- 静止时加速度计仍会测得大小约为 \(g\) 的比力，根本原因不是零偏；
+- 静止时加速度计仍会测得大小约为 $g$ 的比力，根本原因不是零偏；
 - 姿态估计误差会造成重力投影错误，产生虚假水平加速度；
 - 虚假加速度再经过积分，会形成速度和位置漂移；
 - 匀速转弯虽然速度大小不变，但速度方向变化，因此仍有向心加速度；
-- 在“右—前—上”坐标系中，右转角速度沿负 \(z\) 轴，向心加速度沿正 \(x\) 轴；
+- 在“右—前—上”坐标系中，右转角速度沿负 $z$ 轴，向心加速度沿正 $x$ 轴；
 - 向心加速度与乘客感受到的虚拟离心力不能混为一谈。
 
 这部分是整个诊断中追问最多的模块。它确实暴露了不少问题，但也引出了这套学习方法在执行上的一个缺陷：诊断逐渐变成了正式教学，题目数量和时间开始失控。这个问题后面还会专门讨论。
@@ -264,7 +266,7 @@ w_{measurement}=\frac45
 - 理解里程计为什么短期连续而长期漂移；
 - 理解 SLAM 前端、后端、回环和图优化的基本关系；
 - 能区分回环检测与重定位；
-- 知道全局修正通常不直接破坏 \({}^{odom}\mathbf T_{base}\) 的连续性，而是调整 \({}^{map}\mathbf T_{odom}\)。
+- 知道全局修正通常不直接破坏 ${}^{\mathrm{odom}}\mathbf{T}_{\mathrm{base}}$ 的连续性，而是调整 ${}^{\mathrm{map}}\mathbf{T}_{\mathrm{odom}}$。
 
 但综合题仍然暴露了一些不完整之处：
 
@@ -337,8 +339,9 @@ ChatGPT 纠正以后，我能理解正确答案，但这只能证明“此刻看
 
 经过第一次诊断，我把原来的六类提示词进一步组合成下面这套流程：
 
-\[
+$$
 \boxed{
+\begin{gathered}
 \text{目标}
 \rightarrow
 \text{诊断}
@@ -347,19 +350,20 @@ ChatGPT 纠正以后，我能理解正确答案，但这只能证明“此刻看
 \rightarrow
 \text{学习阶梯}
 \rightarrow
-\text{核心资源}
+\text{核心资源}\\
 \rightarrow
 \text{20小时第一轮}
 \rightarrow
 \text{考试与费曼纠错}
 \rightarrow
-\text{速查表}
+\text{速查表}\\
 \rightarrow
 \text{间隔复习}
 \rightarrow
 \text{项目验证}
+\end{gathered}
 }
-\]
+$$
 
 我还会把诊断模式和教学模式明确分开。
 

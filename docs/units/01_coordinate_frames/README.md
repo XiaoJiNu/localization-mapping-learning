@@ -7,10 +7,12 @@
 完成后应能够：
 
 - 解释点、向量、坐标系和位姿的区别；
-- 看到 `{}^{A}T_B` 就说出它把 B 中坐标映射到 A；
+- 看到 ${}^{A}\mathbf T_B$ 就说出它把坐标系 $B$ 中的坐标映射到坐标系 $A$；
 - 正确完成变换复合、求逆和点变换；
 - 根据消息时间戳选择相同时刻的 TF；
-- 用 `map→odom→base→sensor` 分析定位系统中的局部连续性与全局修正。
+- 用 TF 树的父帧到子帧关系
+  $\mathtt{map}\to\mathtt{odom}\to\mathtt{base}\to\mathtt{sensor}$
+  分析定位系统中的局部连续性与全局修正。
 
 ## 2 小时建议流程
 
@@ -21,12 +23,14 @@
 | 推导 | 25 分钟 | 独立完成 [关键推导](derivations.md) |
 | 实验 | 40 分钟 | 构造三段变换链，验证复合与求逆 |
 | 复盘 | 10 分钟 | 更新 [错误记录](mistakes.md) 与 [速查表](cheatsheet.md) |
-| 输出 | 10 分钟 | 用自己的话解释 `map/odom/base` |
+| 输出 | 10 分钟 | 用自己的话解释 `map`、`odom`、`base` |
 
 ## 验收标准
 
 - 手算与代码结果一致；
-- `T @ inverse(T)` 的误差在浮点容差内；
+- 能验证
+  $\lVert\mathbf T\mathbf T^{-1}-\mathbf I\rVert_{\mathrm F}<\varepsilon$
+  （其中 $\varepsilon$ 是选定的浮点容差）；
 - 改变一段外参后，能提前判断终点变化方向；
 - 能发现一条故意反写的变换；
 - 公式、代码与数据都符合仓库的[全局约定](../../00_learning_system/conventions.md)。
