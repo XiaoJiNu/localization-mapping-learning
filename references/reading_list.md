@@ -2,6 +2,20 @@
 
 原则：优先阅读教材、论文和官方文档；每份材料都要带着问题阅读，并留下推导或实验产物。
 
+## 第一轮核心资源
+
+第一次诊断后，第一轮只选择五个主要事实锚点，不要求从头通读；每次围绕当前单元的问题按需查阅，并留下推导或实验。
+
+| 资源 | 对应问题 | 第一轮使用方式 |
+|---|---|---|
+| Gilbert Strang, *Introduction to Linear Algebra* | 列空间、正交投影、秩与最小二乘 | 重做诊断中的投影与残差题 |
+| Timothy D. Barfoot, [*State Estimation for Robotics*](https://asrl.utias.utoronto.ca/~tdb/bib/barfoot_ser24.pdf) | 几何、概率、滤波、优化和 IMU 的统一框架 | 作为第一轮主线教材，按单元查阅 |
+| [tf2 文档](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Tf2.html)与 [REP-105](https://www.ros.org/reps/rep-0105.html) | 坐标树、时间查询以及 `map`、`odom`、`base_link` 约定 | 用官方定义校核符号和系统行为 |
+| [GTSAM 文档](https://gtsam.org/) | 残差、噪声模型、因子图与非线性优化 | 从二维小例子连接公式与代码 |
+| [RTAB-Map 文档](https://introlab.github.io/rtabmap/) | 里程计、回环、图优化和重定位的系统关系 | 先梳理输入输出，再运行最小示例 |
+
+其余资料作为对应单元的补充，不因为“可能有用”就全部加入第一轮。
+
 ## 基础数学
 
 1. Gilbert Strang, *Introduction to Linear Algebra*：列空间、正交投影与最小二乘。
