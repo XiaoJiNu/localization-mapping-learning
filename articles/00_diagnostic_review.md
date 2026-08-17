@@ -91,8 +91,7 @@ $$
 要求把一个在 $\mathrm{base}$ 坐标系中表示的点变换到 $\mathrm{map}$ 坐标系。我正确写出了：
 
 $$
-{}^{\mathrm{map}}\mathbf{p}
-=
+{}^{\mathrm{map}}\mathbf{p} =
 {}^{\mathrm{map}}\mathbf{T}_{\mathrm{odom}}
 {}^{\mathrm{odom}}\mathbf{T}_{\mathrm{base}}
 {}^{\mathrm{base}}\mathbf{p}
@@ -135,8 +134,7 @@ $$
 线性代数诊断给出了一个三行两列的矩阵，要求求解：
 
 $$
-\hat{\mathbf{x}}
-=
+\hat{\mathbf{x}} =
 \underset{\mathbf{x}}{\operatorname{arg\,min}}\;
 \lVert\mathbf{A}\mathbf{x}-\mathbf{b}\rVert_2^2
 $$
@@ -151,15 +149,13 @@ $$
 经过计算，最终得到：
 
 $$
-\hat{\mathbf{x}}
-=
+\hat{\mathbf{x}} =
 \begin{bmatrix}
 \frac{2}{3}\\[1mm]
 \frac{5}{3}
 \end{bmatrix},
 \qquad
-\mathbf{r}
-=
+\mathbf{r} =
 \begin{bmatrix}
 \frac{1}{3}\\[1mm]
 \frac{1}{3}\\[1mm]
@@ -211,8 +207,7 @@ $$
 $$
 
 $$
-\sigma_{\mathrm{post}}^2
-=
+\sigma_{\mathrm{post}}^2 =
 \left(\frac{1}{4}+1\right)^{-1}
 =0.8
 $$

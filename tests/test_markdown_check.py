@@ -86,6 +86,36 @@ class MarkdownCheckTest(unittest.TestCase):
 
             self.assertEqual(check_file(source), [])
 
+    def test_unpaired_inline_math_delimiter_is_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.md"
+            source.write_text("Inline $x^2 is incomplete.\n", encoding="utf-8")
+
+            errors = check_file(source)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("unpaired inline math delimiter", errors[0])
+
+    def test_unclosed_display_math_block_is_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.md"
+            source.write_text("$$\nx=1\n", encoding="utf-8")
+
+            errors = check_file(source)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("unclosed display math block", errors[0])
+
+    def test_setext_marker_inside_display_math_is_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.md"
+            source.write_text("$$\nx\n=\ny\n$$\n", encoding="utf-8")
+
+            errors = check_file(source)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("standalone Markdown heading marker", errors[0])
+
 
 if __name__ == "__main__":
     unittest.main()

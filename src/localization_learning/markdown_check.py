@@ -10,6 +10,8 @@ from urllib.parse import unquote
 MARKDOWN_LINK = re.compile(r"(?<!!)\[[^]]+\]\(([^)]+)\)")
 LEGACY_MATH_DELIMITER = re.compile(r"(?<!\\)\\(?:\(|\)|\[|\])")
 INLINE_CODE = re.compile(r"`[^`]*`")
+INLINE_MATH_DELIMITER = re.compile(r"(?<!\\)(?<!\$)\$(?!\$)")
+SETEXT_MARKER = re.compile(r"^[=-]+$")
 
 IGNORED_PARTS = {
     ".git",
@@ -46,6 +48,7 @@ def check_file(path: Path) -> list[str]:
         errors.append(f"{path}: file must end with a newline")
 
     active_fence: tuple[str, int] | None = None
+    display_math_start: int | None = None
     for line_number, line in enumerate(text.splitlines(), start=1):
         if line.rstrip(" \t") != line:
             errors.append(f"{path}:{line_number}: trailing whitespace")
@@ -66,12 +69,33 @@ def check_file(path: Path) -> list[str]:
 
         if active_fence is None:
             prose_line = INLINE_CODE.sub("", line)
+            if prose_line.strip() == "$$":
+                display_math_start = (
+                    line_number if display_math_start is None else None
+                )
+                continue
+
             legacy_delimiters = LEGACY_MATH_DELIMITER.findall(prose_line)
             if legacy_delimiters:
                 rendered = ", ".join(f"`{item}`" for item in legacy_delimiters)
                 errors.append(
                     f"{path}:{line_number}: unsupported GitHub math delimiter(s): "
                     f"{rendered}; use $...$ or $$...$$"
+                )
+
+            if display_math_start is not None:
+                if SETEXT_MARKER.fullmatch(prose_line.strip()):
+                    errors.append(
+                        f"{path}:{line_number}: standalone Markdown heading marker "
+                        "inside $$ block; keep the operator on an equation line"
+                    )
+                continue
+
+            inline_delimiters = INLINE_MATH_DELIMITER.findall(prose_line)
+            if len(inline_delimiters) % 2:
+                errors.append(
+                    f"{path}:{line_number}: unpaired inline math delimiter; "
+                    "use a complete $...$ pair on one line"
                 )
 
             for match in MARKDOWN_LINK.finditer(prose_line):
@@ -93,6 +117,10 @@ def check_file(path: Path) -> list[str]:
         marker, line_number = active_fence
         errors.append(
             f"{path}:{line_number}: unclosed Markdown fence starting with {marker}"
+        )
+    if display_math_start is not None:
+        errors.append(
+            f"{path}:{display_math_start}: unclosed display math block starting with $$"
         )
     return errors
 
