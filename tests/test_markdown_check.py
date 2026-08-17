@@ -54,7 +54,7 @@ class MarkdownCheckTest(unittest.TestCase):
             source = Path(directory) / "source.md"
             source.write_text(
                 "Inline $x^2$.\n\n$$\n"
-                "\\begin{bmatrix}1\\\\[1mm]2\\end{bmatrix}\n"
+                "\\begin{bmatrix}1\\\\2\\end{bmatrix}\n"
                 "$$\n",
                 encoding="utf-8",
             )

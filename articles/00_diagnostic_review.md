@@ -135,7 +135,7 @@ $$
 
 $$
 \hat{\mathbf{x}} =
-\underset{\mathbf{x}}{\operatorname{arg\,min}}\;
+\underset{\mathbf{x}}{\arg\min}\;
 \lVert\mathbf{A}\mathbf{x}-\mathbf{b}\rVert_2^2
 $$
 
@@ -151,14 +151,14 @@ $$
 $$
 \hat{\mathbf{x}} =
 \begin{bmatrix}
-\frac{2}{3}\\[1mm]
+\frac{2}{3}\\
 \frac{5}{3}
 \end{bmatrix},
 \qquad
 \mathbf{r} =
 \begin{bmatrix}
-\frac{1}{3}\\[1mm]
-\frac{1}{3}\\[1mm]
+\frac{1}{3}\\
+\frac{1}{3}\\
 -\frac{1}{3}
 \end{bmatrix}
 $$
