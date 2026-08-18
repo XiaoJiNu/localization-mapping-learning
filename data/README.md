@@ -11,13 +11,15 @@
   的映射与变换复合；
 - 动态变换按时间戳配对；
 - 静态外参与动态位姿的区别；
-- 修改 ${}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}$ 时，如何保持
-  ${}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}$ 连续。
+- 修改里程计坐标系到地图坐标系的全局对齐关系时，如何保持车体在里程计坐标系中的局部位姿连续。
 
-每行的 `target_frame` 和 `source_frame` 表示
-${}^{\mathrm{target}}\mathbf T_{\mathrm{source}}$。平移列 `x_m`、`y_m`、`z_m`
-表达在目标坐标系中；`yaw_rad` 表示绕目标坐标系 $+z$ 轴的旋转，坐标轴为
-右—前—上。数据是纯合成值，不对应任何车辆、地点或真实项目。
+每行的 `target_frame` 和 `source_frame` 采用“从源坐标系映射到目标坐标系”的方向，记号为：
+
+$$
+{}^{\mathrm{target}}\mathbf T_{\mathrm{source}}
+$$
+
+平移列 `x_m`、`y_m`、`z_m` 表达在目标坐标系中；`yaw_rad` 表示绕目标坐标系 $+z$ 轴的旋转，坐标轴为右—前—上。数据是纯合成值，不对应任何车辆、地点或真实项目。
 
 ## 数据管理规则
 

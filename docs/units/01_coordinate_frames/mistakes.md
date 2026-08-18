@@ -6,18 +6,29 @@
 
 - **现象**：看到 $T_{ab}$ 时不确定是 $A$ 到 $B$，还是 $B$ 到 $A$。
 - **根因**：变量名没有表达统一数学约定。
-- **修正**：统一写为 ${}^{A}\mathbf T_B$，并在计算前补全 ${}^{A}\mathbf p={}^{A}\mathbf T_B{}^{B}\mathbf p$。
+- **修正**：统一让下标表示源坐标系、左上标表示目标坐标系，并在计算前写出完整的点变换关系。
 - **验证**：用 $B$ 的原点 $[0,0,0,1]^{\mathsf T}$ 测试，输出应是 $B$ 的原点在 $A$ 中的位置。
 - **状态**：待第 3 天复习。
+
+M01 使用的完整关系为：
+
+$$
+{}^{A}\mathbf p={}^{A}\mathbf T_B{}^{B}\mathbf p
+$$
 
 ## M02：逆变换只把平移改成负号
 
 - **现象**：把 $[\mathbf R,\mathbf t]$ 的逆误写成 $[\mathbf R^{\mathsf T},-\mathbf t]$。
 - **根因**：忽略 $\mathbf t$ 仍表达在坐标系 $A$ 中。
 - **修正**：从点变换方程推导出 $[\mathbf R^{\mathsf T},-\mathbf R^{\mathsf T}\mathbf t]$。
-- **验证**：选择非单位旋转，检查
-  $\lVert\mathbf T\mathbf T^{-1}-\mathbf I\rVert_{\mathrm F}<\varepsilon$。
+- **验证**：选择非单位旋转，检查变换与其逆的乘积是否在浮点容差内接近单位矩阵。
 - **状态**：待代码验证。
+
+M02 使用的闭环判据为：
+
+$$
+\lVert\mathbf T\mathbf T^{-1}-\mathbf I\rVert_{\mathrm F}<\varepsilon
+$$
 
 ## M03：用消息处理时间查询动态 TF
 

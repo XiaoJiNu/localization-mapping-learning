@@ -222,8 +222,35 @@ class MarkdownCheckTest(unittest.TestCase):
         self.assertTrue(all("must be" in error for error in errors))
 
     def test_inline_math_with_portable_spacing_is_accepted(self) -> None:
+        errors = self.check_text("位置 $x$，变换 $\\mathbf T_B$。\n")
+
+        self.assertEqual(errors, [])
+
+    def test_leading_frame_superscript_inline_math_requires_display_block(
+        self,
+    ) -> None:
+        simple_errors = self.check_text("变换 ${}^{A}\\mathbf T_B$。\n")
+        nested_errors = self.check_text(
+            "变换 ${}^{\\mathrm{odom}}\\mathbf T_{\\mathrm{base}}$。\n"
+        )
+
+        self.assertEqual(len(simple_errors), 1)
+        self.assertIn("use a $$ display math block", simple_errors[0])
+        self.assertEqual(len(nested_errors), 1)
+        self.assertIn("use a $$ display math block", nested_errors[0])
+
+    def test_leading_frame_superscript_is_accepted_in_display_math(self) -> None:
         errors = self.check_text(
-            "位置 $x$，变换 ${}^{A}\\mathbf T_B$。\n"
+            "$$\n"
+            "{}^{\\mathrm{odom}}\\mathbf T_{\\mathrm{base}}\n"
+            "$$\n"
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_nonleading_frame_superscript_remains_valid_inline_math(self) -> None:
+        errors = self.check_text(
+            "表达式 $\\mathbf R{}^{\\mathrm{odom}}\\mathbf p$。\n"
         )
 
         self.assertEqual(errors, [])
@@ -259,6 +286,28 @@ class MarkdownCheckTest(unittest.TestCase):
 
         self.assertEqual(len(errors), 2)
         self.assertTrue(all("unsafe LaTeX spacing command" in e for e in errors))
+
+    def test_operatorname_commands_are_rejected_in_math(self) -> None:
+        errors = self.check_text(
+            "Inline $\\operatorname{rank}(A)$ .\n\n"
+            "$$\n"
+            "\\operatorname*{argmin}_{x} f(x)\n"
+            "$$\n"
+        )
+
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(all("unsupported GitHub math command" in e for e in errors))
+
+    def test_supported_math_name_and_code_examples_are_accepted(self) -> None:
+        errors = self.check_text(
+            "Inline $\\mathrm{rank}(A)$ . Example: "
+            "`$\\operatorname{rank}(A)$`.\n\n"
+            "```latex\n"
+            "\\operatorname*{argmin}_{x} f(x)\n"
+            "```\n"
+        )
+
+        self.assertEqual(errors, [])
 
     def test_latex_command_outside_math_is_reported(self) -> None:
         errors = self.check_text("The value is \\mathbf T.\n")

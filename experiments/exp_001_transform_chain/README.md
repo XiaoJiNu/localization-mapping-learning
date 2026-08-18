@@ -2,18 +2,16 @@
 
 ## 要回答的问题
 
-已知在 $\mathrm{base}$ 坐标系中表示的点 ${}^{\mathrm{base}}\mathbf p$、
-${}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}$ 和
-${}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}$：
+已知一个点在 `base` 坐标系中的坐标，以及从 `base` 到 `odom`、从 `odom` 到 `map` 的两段变换：
 
 1. 如何把点依次变换到 `odom` 和 `map` 坐标系？
-2. 如何复合得到 ${}^{\mathrm{map}}\mathbf T_{\mathrm{base}}$？
+2. 如何复合得到从 `base` 到 `map` 的变换？
 3. 为什么逐步计算与直接计算应当一致？
 
 ## 约定
 
 - 使用右手坐标系、列向量和齐次变换左乘。
-- ${}^{A}\mathbf T_B$ 把在坐标系 $B$ 中表示的点变换到坐标系 $A$，关系如下。
+- 变换的下标表示源坐标系，左上标表示目标坐标系；点变换关系如下。
 
 $$
 {}^{A}\mathbf p = {}^{A}\mathbf T_B{}^{B}\mathbf p

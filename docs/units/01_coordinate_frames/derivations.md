@@ -1,7 +1,6 @@
 # 关键推导
 
-所有推导使用列向量和 ${}^{A}\mathbf T_B$ 将坐标系 $B$ 中的坐标映射到
-坐标系 $A$ 的约定。
+所有推导使用列向量，并约定变换的下标表示源坐标系，左上标表示目标坐标系。
 
 ## 1. 变换复合
 
@@ -38,7 +37,13 @@ $$
 \begin{bmatrix}\mathbf R&\mathbf t\\\mathbf 0^{\mathsf T}&1\end{bmatrix}
 $$
 
-由 ${}^{A}\mathbf p=\mathbf R{}^{B}\mathbf p+\mathbf t$ 得：
+从点变换的旋转和平移形式开始：
+
+$$
+{}^{A}\mathbf p=\mathbf R{}^{B}\mathbf p+\mathbf t
+$$
+
+移项得到：
 
 $$
 {}^{B}\mathbf p=\mathbf R^{\mathsf T}{}^{A}\mathbf p-\mathbf R^{\mathsf T}\mathbf t
@@ -78,16 +83,16 @@ $$
 
 这说明平移改变点的位置，但不改变速度方向、法向量等纯方向量。
 
-## 4. `map` 到 `odom` 变换的计算
+## 4. `odom` 到 `map` 变换的计算
 
-若全局定位给出 ${}^{\mathrm{map}}\mathbf T_{\mathrm{base}}$，局部里程计给出 ${}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}$，由
+若全局定位给出车体在地图坐标系中的位姿，局部里程计给出车体在里程计坐标系中的位姿，则有：
 
 $$
 {}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
 ={}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
 $$
 
-右乘 $\left({}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}\right)^{-1}$：
+在等式两边右乘局部里程计变换的逆：
 
 $$
 \boxed{{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
@@ -101,7 +106,7 @@ $$
 
 不要直接看代码，先完成以下操作：
 
-1. 设坐标系 $B$ 相对坐标系 $A$ 绕 $+z$ 旋转 $90^\circ$，且 $B$ 的原点在 $A$ 中为 $[1,2,0]^{\mathsf T}$，写出 ${}^{A}\mathbf T_B$。
-2. 将 ${}^{B}\mathbf p=[1,0,0]^{\mathsf T}$ 映射到坐标系 $A$。
+1. 设坐标系 $B$ 相对坐标系 $A$ 绕 $+z$ 旋转 $90^\circ$，且 $B$ 的原点在 $A$ 中为 $[1,2,0]^{\mathsf T}$，写出从坐标系 $B$ 映射到坐标系 $A$ 的齐次变换。
+2. 将点在坐标系 $B$ 中的坐标 $[1,0,0]^{\mathsf T}$ 映射到坐标系 $A$。
 3. 手算逆变换，再把结果映射回坐标系 $B$。
 4. 用数值程序验证两个方向的误差小于 $10^{-9}$。

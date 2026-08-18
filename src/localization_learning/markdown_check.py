@@ -13,6 +13,10 @@ LEGACY_MATH_DELIMITER = re.compile(r"(?<!\\)\\(?:\(|\)|\[|\])")
 LATEX_OUTSIDE_MATH = re.compile(r"(?<!\\)\\[A-Za-z]+")
 MATH_ENVIRONMENT = re.compile(r"(?<!\\)\\(?P<action>begin|end)\{(?P<name>[^{}]+)\}")
 UNSAFE_MATH_SPACING = re.compile(r"(?<!\\)\\[,;]")
+UNSUPPORTED_GITHUB_MATH_COMMAND = re.compile(
+    r"(?<!\\)\\operatorname\*?(?=\s|\{|$)"
+)
+LEADING_FRAME_SUPERSCRIPT = re.compile(r"^\{\}\^")
 SETEXT_MARKER = re.compile(r"^[=-]+$")
 INVALID_ATX_HEADING = re.compile(r"^ {0,3}#{1,6}(?=[^\s#])")
 LINK_TARGET = re.compile(
@@ -192,6 +196,16 @@ def _mask_inline_math(line: str) -> tuple[str, list[str]]:
             errors.append(
                 r"unsafe LaTeX spacing command; do not use \, or \; on GitHub"
             )
+        if UNSUPPORTED_GITHUB_MATH_COMMAND.search(expression):
+            errors.append(
+                r"unsupported GitHub math command: do not use \operatorname "
+                r"or \operatorname*"
+            )
+        if LEADING_FRAME_SUPERSCRIPT.match(expression.lstrip()):
+            errors.append(
+                "inline math beginning with {}^{...} is unreliable on GitHub; "
+                "use a $$ display math block"
+            )
         _mask_range(characters, opening, closing + 1)
 
     return "".join(characters), errors
@@ -354,6 +368,11 @@ def _display_math_line_errors(
     errors: list[str] = []
     if UNSAFE_MATH_SPACING.search(line):
         errors.append(r"unsafe LaTeX spacing command; do not use \, or \; on GitHub")
+    if UNSUPPORTED_GITHUB_MATH_COMMAND.search(line):
+        errors.append(
+            r"unsupported GitHub math command: do not use \operatorname "
+            r"or \operatorname*"
+        )
     for index, character in enumerate(line):
         if _is_escaped(line, index):
             continue

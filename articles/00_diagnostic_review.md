@@ -147,7 +147,7 @@ $$
 
 $$
 \hat{\mathbf{x}} =
-\operatorname*{argmin}_{\mathbf{x}}
+\underset{\mathbf{x}}{\arg\min}
 \lVert\mathbf{A}\mathbf{x}-\mathbf{b}\rVert_2^2
 $$
 
@@ -272,7 +272,17 @@ $$
 - 理解里程计为什么短期连续而长期漂移；
 - 理解 SLAM 前端、后端、回环和图优化的基本关系；
 - 能区分回环检测与重定位；
-- 知道全局修正通常保持 ${}^{\mathrm{odom}}\mathbf{T}_{\mathrm{base}}$ 连续，而把修正放入 ${}^{\mathrm{map}}\mathbf{T}_{\mathrm{odom}}$ 中。
+- 知道全局修正通常保持 `base` 在 `odom` 中的局部位姿连续，而把修正放入从 `odom` 到 `map` 的全局校正变换中。
+
+对应的位姿复合关系为：
+
+$$
+{}^{\mathrm{map}}\mathbf{T}_{\mathrm{base}} =
+{}^{\mathrm{map}}\mathbf{T}_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf{T}_{\mathrm{base}}
+$$
+
+其中，`base` 在 `odom` 中的位姿描述连续的局部里程计运动，从 `odom` 到 `map` 的变换承担回环或重定位带来的全局修正；两者复合后得到 `base` 在 `map` 中的位姿。
 
 但综合题仍然暴露了一些不完整之处：
 
