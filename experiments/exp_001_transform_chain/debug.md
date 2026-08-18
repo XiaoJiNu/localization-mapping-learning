@@ -10,12 +10,12 @@
 
 1. 写出每个矩阵的源坐标系和目标坐标系，不使用含糊的 $\mathbf T_1$、
    $\mathbf T_2$。
-2. 检查相邻坐标系是否能衔接：
+2. 检查相邻坐标系是否能衔接，结果应为下式。
 
 $$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}\,
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
 {}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
-= {}^{\mathrm{map}}\mathbf T_{\mathrm{base}}.
+= {}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
 $$
 
 3. 检查代码是否采用列向量语义；本仓库接口中的点集虽按行存储，但内部保持

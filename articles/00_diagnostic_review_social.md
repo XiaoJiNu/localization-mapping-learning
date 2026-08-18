@@ -37,31 +37,37 @@
 ChatGPT 要我把 `base` 坐标系中的点变换到 `map` 坐标系，我写出了：
 
 $$
-{}^{\mathrm{map}}\mathbf p =
-{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
-{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
-{}^{\mathrm{base}}\mathbf p
+{}^{\mathrm{map}}\mathbf{p} =
+{}^{\mathrm{map}}\mathbf{T}_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf{T}_{\mathrm{base}}
+{}^{\mathrm{base}}\mathbf{p}
 $$
 
 这个结果没有写错。仓库采用列向量，所以右侧变换先作用：先把点从 `base` 表达到 `odom`，再从 `odom` 表达到 `map`。所谓“上下标消掉”只是一种检查方法，不是原因本身。
 
-我真正算错的是齐次变换的逆。旋转矩阵满足 $\mathbf R^{-1}=\mathbf R^{\mathsf T}$，但完整刚体变换还包含平移：
+我真正算错的是齐次变换的逆。旋转矩阵满足：
 
 $$
-\mathbf T=
+\mathbf{R}^{-1}=\mathbf{R}^{\mathsf{T}}
+$$
+
+但完整刚体变换还包含平移：
+
+$$
+\mathbf{T}=
 \begin{bmatrix}
-\mathbf R & \mathbf t\\
-\mathbf 0^{\mathsf T} & 1
+\mathbf{R} & \mathbf{t}\\
+\mathbf{0}^{\mathsf{T}} & 1
 \end{bmatrix}
 $$
 
 它的逆为：
 
 $$
-\mathbf T^{-1}=
+\mathbf{T}^{-1}=
 \begin{bmatrix}
-\mathbf R^{\mathsf T} & -\mathbf R^{\mathsf T}\mathbf t\\
-\mathbf 0^{\mathsf T} & 1
+\mathbf{R}^{\mathsf{T}} & -\mathbf{R}^{\mathsf{T}}\mathbf{t}\\
+\mathbf{0}^{\mathsf{T}} & 1
 \end{bmatrix}
 $$
 
@@ -69,7 +75,13 @@ $$
 
 ### 概率融合：会算权重，概念仍然会混
 
-题目给出先验 $x\sim\mathcal N(10,4)$、观测 $z=12$，测量噪声方差为 $1$，其中 $4$ 表示先验方差。ChatGPT 先问融合结果会更接近 10 还是 12。
+题目给出先验和观测：
+
+$$
+x\sim\mathcal{N}(10,4),\qquad z=12
+$$
+
+测量噪声方差为 1，其中 4 表示先验方差。ChatGPT 先问融合结果会更接近 10 还是 12。
 
 我回答“更接近 10”，理由是“正态分布相加后的均值等于均值相加”。这混淆了两件事：随机变量相加，以及获得观测后对同一个状态做条件估计。
 
@@ -78,18 +90,25 @@ $$
 $$
 \begin{aligned}
 K &= \frac{4}{4+1}=0.8,\\
-\hat x &= 10+0.8(12-10)=11.6,\\
-P &= (1-K)\times4=0.8.
+\hat{x} &= 10+0.8(12-10)=11.6,\\
+P &= (1-K)\times 4=0.8
 \end{aligned}
 $$
 
-有意思的是，继续计算时，我又能正确给出先验和测量的权重分别为 $\frac15$ 与 $\frac45$。问题不是完全不会算，而是概率模型不稳定：换一种问法，理解就失效。
+有意思的是，继续计算时，我又能正确给出先验和测量的权重：
+
+$$
+w_{\mathrm{prior}}=\frac{1}{5},\qquad
+w_{\mathrm{measurement}}=\frac{4}{5}
+$$
+
+问题不是完全不会算，而是概率模型不稳定：换一种问法，理解就失效。
 
 因此后续练习不能只代公式。我需要先说清状态、测量、条件和噪声，再计算均值与协方差，并用“测量极准”或“测量极差”的极端情况检查答案。
 
 ### IMU：知道积分漂移，不等于知道它测了什么
 
-ChatGPT 问“IMU 和轮速计直接测量什么”，我最初把 IMU 说成直接测量车辆姿态，甚至把 $x$、$y$ 位置也放了进去。
+ChatGPT 问“IMU 和轮速计直接测量什么”，我最初把 IMU 说成直接测量车辆姿态，甚至把位置变量 $x$ 和 $y$ 也放了进去。
 
 更准确地说，陀螺仪直接测三轴角速度，加速度计直接测三轴比力；姿态、速度和位置需要经过状态估计、坐标变换、重力处理与积分得到。轮速传感器直接测车轮转速，再用它推算车辆运动。
 

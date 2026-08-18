@@ -4,25 +4,28 @@
 
 ## 坐标轴
 
-- 车辆坐标系采用**右—前—上**：$x$ 向右、$y$ 向前、$z$ 向上。
+- 车辆坐标系采用 **右—前—上**，具体为：
+    - $x$ 轴向右；
+    - $y$ 轴向前；
+    - $z$ 轴向上。
 - 使用右手系，因此绕 $z$ 轴的正方向由右手定则确定。
-- 二维示例的偏航角 $\mathrm{yaw}$ 是绕 $+z$ 的旋转。
+- 二维示例的偏航角 $\mathrm{yaw}$ 是绕 $+z$ 轴的旋转。
 
 ## 向量与变换
 
 - 向量使用列向量。
 - ${}^{A}\mathbf p$ 表示点 $\mathbf p$ 在坐标系 $A$ 中的坐标。
-- ${}^{A}\mathbf T_B$ 将坐标系 $B$ 中的坐标映射到坐标系 $A$：
+- ${}^{A}\mathbf T_B$ 将坐标系 $B$ 中的坐标映射到坐标系 $A$，关系如下。
 
-  $$
-  {}^{A}\mathbf p = {}^{A}\mathbf T_B\,{}^{B}\mathbf p
-  $$
+$$
+{}^{A}\mathbf p = {}^{A}\mathbf T_B{}^{B}\mathbf p
+$$
 
-- 变换链按映射顺序从右向左作用：
+- 变换链按映射顺序从右向左作用。
 
-  $$
-  {}^{A}\mathbf T_C = {}^{A}\mathbf T_B\,{}^{B}\mathbf T_C
-  $$
+$$
+{}^{A}\mathbf T_C = {}^{A}\mathbf T_B{}^{B}\mathbf T_C
+$$
 
 - 箭头必须注明语义，不能代替上面的变换符号：
   - 点坐标的映射路径按“源坐标系 $\to$ 目标坐标系”书写，例如
@@ -31,15 +34,15 @@
     $\mathtt{map}\to\mathtt{odom}\to\mathtt{base}$。
 - 在变换上下标中，命名坐标系使用 $\mathrm{map}$ 这类罗马体；单独书写
   ROS 帧名或路径时使用 $\mathtt{map}$ 这类等宽体。
-- 齐次变换写作：
+- 齐次变换写作如下。
 
-  $$
-  \mathbf T=\begin{bmatrix}\mathbf R&\mathbf t\\\mathbf 0^{\mathsf T}&1\end{bmatrix}
-  $$
+$$
+\mathbf T=\begin{bmatrix}\mathbf R&\mathbf t\\\mathbf 0^{\mathsf T}&1\end{bmatrix}
+$$
 
 ## 时间与单位
 
-- 时间戳表示传感器数据的**产生时间**，不是接收或处理时间。
+- 时间戳表示传感器数据的 **产生时间**，不是接收或处理时间。
 - 查询坐标变换时使用对应测量时刻。
 - 默认采用 SI 单位：米、秒、弧度、米每二次方秒、弧度每秒。
 - 文件或变量名必须携带容易混淆的坐标系或单位，例如 `p_map`、`yaw_rad`。

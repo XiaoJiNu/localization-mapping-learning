@@ -2,26 +2,26 @@
 
 ## 1. 几何对象与坐标不是一回事
 
-空间中的点 $\mathbf p$ 是几何对象，${}^{A}\mathbf p$ 是它在坐标系 $A$ 下的数值表达。换坐标系不会移动真实的点，只会改变描述它的数字。
+空间中的点 $\mathbf p$ 是几何对象。它在坐标系 $A$ 下的数值表达记为 ${}^{A}\mathbf p$。换坐标系不会移动真实的点，只会改变描述它的数字。
 
-本仓库使用列向量，车辆坐标系为右—前—上：$x$ 向右、$y$ 向前、$z$ 向上。
+本仓库使用列向量，车辆坐标系为右—前—上；右向轴记为 $x$，前向轴记为 $y$，上向轴记为 $z$。
 
 ## 2. 变换符号
 
 ${}^{A}\mathbf T_B$ 的下标 $B$ 是输入表达所在坐标系，上标 $A$ 是输出表达所在坐标系：
 
 $$
-{}^{A}\mathbf p = {}^{A}\mathbf T_B\,{}^{B}\mathbf p
+{}^{A}\mathbf p = {}^{A}\mathbf T_B{}^{B}\mathbf p
 $$
 
-读作“$B$ 在 $A$ 中的位姿”或“从 $B$ 坐标映射到 $A$ 坐标的变换”。遇到歧义时不要依赖自然语言，只检查等式两侧的坐标系标记。
+读作“坐标系 $B$ 在坐标系 $A$ 中的位姿”，也可读作“从坐标系 $B$ 映射到坐标系 $A$ 的变换”。遇到歧义时不要依赖自然语言，只检查等式两侧的坐标系标记。
 
 ## 3. 刚体变换
 
 三维刚体变换由旋转 $\mathbf R$ 和平移 $\mathbf t$ 组成：
 
 $$
-{}^{A}\mathbf p = {}^{A}\mathbf R_B\,{}^{B}\mathbf p + {}^{A}\mathbf t_B
+{}^{A}\mathbf p = {}^{A}\mathbf R_B{}^{B}\mathbf p + {}^{A}\mathbf t_B
 $$
 
 其中 ${}^{A}\mathbf t_B$ 是坐标系 $B$ 原点在坐标系 $A$ 中的坐标。齐次形式把旋转和平移合并：
@@ -42,7 +42,7 @@ $$
 
 $$
 {}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-= {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}\,{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+= {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
 $$
 
 矩阵从右向左作用。一个实用检查方法是把坐标系名称写成点坐标的映射路径：
@@ -68,7 +68,7 @@ $$
 
 $$
 {}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-= {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}\,{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+= {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
 $$
 
 回环或全局测量到达时，保持局部变换
@@ -81,6 +81,6 @@ ${}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}$，可以避免控制使用的局部
 
 ## 8. 三种快速自检
 
-1. **单位变换**：${}^{A}\mathbf T_A$ 必须是单位矩阵。
-2. **闭环检查**：${}^{A}\mathbf T_B{}^{B}\mathbf T_A$ 必须接近单位矩阵。
+1. **单位变换**： ${}^{A}\mathbf T_A$ 必须是单位矩阵。
+2. **闭环检查**： ${}^{A}\mathbf T_B{}^{B}\mathbf T_A$ 必须接近单位矩阵。
 3. **简单点检查**：先用原点和坐标轴单位向量测试，再处理真实点云。

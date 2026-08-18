@@ -2,7 +2,7 @@
 
 ## 默认约定
 
-- 坐标轴：右—前—上（$x$ 右、$y$ 前、$z$ 上）
+- 坐标轴：右—前—上；右向轴记为 $x$，前向轴记为 $y$，上向轴记为 $z$
 - 向量：列向量
 - ${}^{A}\mathbf T_B$：将坐标系 $B$ 中的坐标映射到坐标系 $A$
 
@@ -12,10 +12,30 @@
 |---|---|
 | 点变换 | ${}^{A}\mathbf p={}^{A}\mathbf T_B{}^{B}\mathbf p$ |
 | 变换复合 | ${}^{A}\mathbf T_C={}^{A}\mathbf T_B{}^{B}\mathbf T_C$ |
-| 齐次变换 | $\mathbf T=\begin{bmatrix}\mathbf R&\mathbf t\\\mathbf 0^{\mathsf T}&1\end{bmatrix}$ |
-| 逆变换 | $\mathbf T^{-1}=\begin{bmatrix}\mathbf R^{\mathsf T}&-\mathbf R^{\mathsf T}\mathbf t\\\mathbf 0^{\mathsf T}&1\end{bmatrix}$ |
+| 齐次变换 | 见下方独立公式 |
+| 逆变换 | 见下方独立公式 |
 | 全局车体位姿 | ${}^{\mathrm{map}}\mathbf T_{\mathrm{base}}={}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}$ |
 | 全局修正 | ${}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}={}^{\mathrm{map}}\mathbf T_{\mathrm{base}}\left({}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}\right)^{-1}$ |
+
+齐次变换为：
+
+$$
+\mathbf T=
+\begin{bmatrix}
+\mathbf R&\mathbf t\\
+\mathbf 0^{\mathsf T}&1
+\end{bmatrix}
+$$
+
+它的逆变换为：
+
+$$
+\mathbf T^{-1}=
+\begin{bmatrix}
+\mathbf R^{\mathsf T}&-\mathbf R^{\mathsf T}\mathbf t\\
+\mathbf 0^{\mathsf T}&1
+\end{bmatrix}
+$$
 
 ## 下标检查
 

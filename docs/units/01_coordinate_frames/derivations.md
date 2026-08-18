@@ -78,7 +78,7 @@ $$
 
 这说明平移改变点的位置，但不改变速度方向、法向量等纯方向量。
 
-## 4. ${}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}$ 的计算
+## 4. `map` 到 `odom` 变换的计算
 
 若全局定位给出 ${}^{\mathrm{map}}\mathbf T_{\mathrm{base}}$，局部里程计给出 ${}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}$，由
 
