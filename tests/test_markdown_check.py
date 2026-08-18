@@ -133,6 +133,29 @@ class MarkdownCheckTest(unittest.TestCase):
         self.assertEqual(len(errors), 2)
         self.assertTrue(all("blank line" in error for error in errors))
 
+    def test_display_math_inside_details_is_reported(self) -> None:
+        errors = self.check_text(
+            "<details>\n"
+            "<summary>Answer</summary>\n\n"
+            "$$\n"
+            "x=1\n"
+            "$$\n\n"
+            "</details>\n"
+        )
+
+        self.assertEqual(len(errors), 1)
+        self.assertIn("display math inside <details>", errors[0])
+
+    def test_inline_math_inside_details_remains_valid(self) -> None:
+        errors = self.check_text(
+            "<details>\n"
+            "<summary>Answer</summary>\n\n"
+            "Value $x=1$ .\n\n"
+            "</details>\n"
+        )
+
+        self.assertEqual(errors, [])
+
     def test_setext_marker_inside_display_math_is_reported(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "source.md"

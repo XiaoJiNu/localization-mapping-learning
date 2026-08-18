@@ -19,6 +19,8 @@ UNSUPPORTED_GITHUB_MATH_COMMAND = re.compile(
 LEADING_FRAME_SUPERSCRIPT = re.compile(r"^\{\}\^")
 SETEXT_MARKER = re.compile(r"^[=-]+$")
 INVALID_ATX_HEADING = re.compile(r"^ {0,3}#{1,6}(?=[^\s#])")
+DETAILS_OPEN = re.compile(r"<details(?:\s[^>]*)?>", re.IGNORECASE)
+DETAILS_CLOSE = re.compile(r"</details\s*>", re.IGNORECASE)
 LINK_TARGET = re.compile(
     r'^(?P<target><[^>\n]*>|(?:\\.|[^\s])+?)'
     r'(?:\s+(?:"[^"]*"|\'[^\']*\'|\([^)]*\)))?$'
@@ -409,6 +411,7 @@ def check_file(path: Path) -> list[str]:
     display_brace_depth = 0
     display_has_content = False
     display_environments: list[str] = []
+    details_depth = 0
     lines = text.splitlines()
 
     for line_number, line in enumerate(lines, start=1):
@@ -447,6 +450,12 @@ def check_file(path: Path) -> list[str]:
         if unclosed_code:
             errors.append(f"{path}:{line_number}: unclosed inline code span")
 
+        details_depth += len(DETAILS_OPEN.findall(code_masked))
+        details_depth = max(
+            0,
+            details_depth - len(DETAILS_CLOSE.findall(code_masked)),
+        )
+
         if "\t" in code_masked:
             errors.append(f"{path}:{line_number}: tab outside a code fence or span")
         for character, name in INVALID_WHITESPACE.items():
@@ -473,6 +482,12 @@ def check_file(path: Path) -> list[str]:
                     "at column 1"
                 )
             if display_math_start is None:
+                if details_depth:
+                    errors.append(
+                        f"{path}:{line_number}: display math inside <details> "
+                        "is unreliable on GitHub; move it outside the collapsible "
+                        "section"
+                    )
                 if line_number > 1 and lines[line_number - 2].strip():
                     errors.append(
                         f"{path}:{line_number}: display math block must have a "
