@@ -156,6 +156,8 @@ ChatGPT 给出的模块分数只用于比较相对强弱，不是标准化考试
 
 如果诊断结束后只留下一段聊天记录，这套方法很难持续。因此，我把结果整理进一个公开单体仓库：
 
+**GitHub 仓库：** [XiaoJiNu/localization-mapping-learning](https://github.com/XiaoJiNu/localization-mapping-learning)
+
 - `docs/` 已保存诊断报告、错误索引、学习地图和复习计划，后续用于保存单元笔记、推导与测验；
 - `experiments/` 用于保存最小实验和调试过程；
 - `src/` 与 `tests/` 用于保存实现及自动验证；
