@@ -1,62 +1,78 @@
 # 坐标变换速查表
 
-本页是完成首次闭卷推导后的参考卡片，不是课程正文，也不能作为学习者证据。第一次作答和推导请使用[无答案工作簿](workbook.md)。
+本页只在完成主课程和首次练习后使用。它不是课程正文，也不能代替学习者自己的推导和实验。
+
+第一次学习请先看[lesson.md](lesson.md)，个人过程写入[工作簿](workbook.md)。
 
 ## 默认约定
 
-- 坐标轴：右—前—上；右向轴记为 $x$，前向轴记为 $y$，上向轴记为 $z$
-- 向量：列向量
-- 变换记号的下标表示源坐标系，左上标表示目标坐标系
+- 坐标轴：右—前—上（RFU）；
+- 手性：右手系；
+- 向量：列向量；
+- 变换：左乘；
+- ${}^{A}\mathbf T_B$：源坐标系为 $B$，目标坐标系为 $A$。
 
-## 与 ROS 常见轴约定的区别
-
-| 约定 | $x$ 轴 | $y$ 轴 | $z$ 轴 |
-|---|---|---|---|
-| 本仓库 RFU | 右 | 前 | 上 |
-| ROS REP-103 常见 FLU | 前 | 左 | 上 |
-
-两者都是右手系，但同一个三元组不代表相同物理方向。接入 ROS 或公开数据前先完成显式轴转换，不能只修改帧名。
-
-## 高频公式
-
-| 操作 | 规则 |
-|---|---|
-| 点变换 | 变换的源坐标系必须与点当前的表达坐标系一致 |
-| 变换复合 | 相邻的中间坐标系必须一致 |
-| 齐次变换 | 见下方独立公式 |
-| 逆变换 | 见下方独立公式 |
-| 全局车体位姿 | 先从车体映射到里程计坐标系，再映射到地图坐标系 |
-| 全局修正 | 用全局车体位姿消去局部车体位姿 |
-
-点变换为：
+## 核心几何关系
 
 $$
-{}^{A}\mathbf p={}^{A}\mathbf T_B{}^{B}\mathbf p
+\overrightarrow{O_AP}
+=
+\overrightarrow{O_AO_B}
++
+\overrightarrow{O_BP}
 $$
 
-变换复合为：
+统一使用 $A$ 表达后：
 
 $$
-{}^{A}\mathbf T_C={}^{A}\mathbf T_B{}^{B}\mathbf T_C
+\boxed{
+{}^{A}\mathbf p
+=
+{}^{A}\mathbf R_B{}^{B}\mathbf p
++{}^{A}\mathbf t_B
+}
 $$
 
-定位系统中的全局车体位姿为：
+## 点与方向向量
+
+点：
 
 $$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-={}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
-{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+{}^{A}\mathbf p
+=
+{}^{A}\mathbf R_B{}^{B}\mathbf p
++{}^{A}\mathbf t_B
 $$
 
-相应的全局修正为：
+方向向量：
 
 $$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
-={}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-\left({}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}\right)^{-1}
+{}^{A}\mathbf v
+=
+{}^{A}\mathbf R_B{}^{B}\mathbf v
 $$
 
-齐次变换为：
+齐次坐标中，点的最后一维为 1，方向向量的最后一维为 0。
+
+## 旋转矩阵
+
+${}^{A}\mathbf R_B$ 的各列是 $B$ 的各坐标轴在 $A$ 中的坐标。
+
+合法旋转矩阵：
+
+$$
+\mathbf R^{\mathsf T}\mathbf R\approx\mathbf I
+$$
+
+$$
+\det(\mathbf R)\approx1
+$$
+
+$$
+\mathbf R^{-1}=\mathbf R^{\mathsf T}
+$$
+
+## 齐次变换与逆
 
 $$
 \mathbf T=
@@ -66,44 +82,117 @@ $$
 \end{bmatrix}
 $$
 
-它的逆变换为：
-
 $$
+\boxed{
 \mathbf T^{-1}=
 \begin{bmatrix}
 \mathbf R^{\mathsf T}&-\mathbf R^{\mathsf T}\mathbf t\\
 \mathbf 0^{\mathsf T}&1
 \end{bmatrix}
+}
 $$
 
-## 下标检查
+完整齐次矩阵一般不满足 $\mathbf T^{-1}=\mathbf T^{\mathsf T}$。
 
-写成点坐标从源到目标的映射路径：
-
-$$
-\mathtt{sensor}\to\mathtt{base}\to\mathtt{odom}\to\mathtt{map}
-$$
-
-相邻坐标系应能消去；最终只保留目标坐标系和源坐标系。
-
-## 调试顺序
-
-1. 明确坐标轴、单位和列/行向量约定。
-2. 在每个量上标注表达坐标系。
-3. 检查时间戳是否一致。
-4. 用原点和三个单位轴验证旋转、平移方向。
-5. 检查变换与其逆的乘积是否接近单位矩阵。
-6. 比较“逐段变换”与“一次复合变换”。
-
-第五项使用下面的判据：
+## 变换组合
 
 $$
-\mathbf T\mathbf T^{-1}\approx\mathbf I
+\boxed{
+{}^{A}\mathbf T_C
+=
+{}^{A}\mathbf T_B{}^{B}\mathbf T_C
+}
 $$
+
+采用列向量时，从右向左作用。相邻坐标系必须衔接。
+
+## 两个全局位姿求相对位姿
+
+$$
+\boxed{
+{}^{A}\mathbf T_B
+=
+\left({}^{W}\mathbf T_A\right)^{-1}
+{}^{W}\mathbf T_B
+}
+$$
+
+坐标路径：
+
+```text
+B → W → A
+```
+
+## 定位系统完整坐标链
+
+$$
+{}^{\mathrm{map}}\mathbf p
+=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+{}^{\mathrm{base}}\mathbf T_{\mathrm{sensor}}
+{}^{\mathrm{sensor}}\mathbf p
+$$
+
+点坐标路径：
+
+```text
+sensor → base → odom → map
+```
+
+TF 父子树常画成：
+
+```text
+map → odom → base → sensor
+```
+
+前者是点的计算路径，后者是父子拓扑。
+
+## 全局车体位姿与全局修正
+
+$$
+{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
+=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+$$
+
+$$
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
+=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
+\left({}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}\right)^{-1}
+$$
+
+## 时间规则
+
+动态变换必须使用测量产生时刻：
+
+$$
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}(t_{\mathrm{measurement}})
+$$
+
+不能因为消息在稍后被处理，就直接使用处理时刻的最新 TF。
+
+## 固定调试顺序
+
+1. 核对原点、轴向、手性和单位；
+2. 给每个量标出表达坐标系；
+3. 写完整点变换等式；
+4. 检查相邻坐标系是否衔接；
+5. 用原点检查平移；
+6. 用单位轴检查旋转；
+7. 检查 $\mathbf R^{\mathsf T}\mathbf R$ 和 $\det(\mathbf R)$；
+8. 检查 $\mathbf T\mathbf T^{-1}\approx\mathbf I$；
+9. 比较逐段变换与一次复合；
+10. 核对角度制、单位和时间戳。
 
 ## 常见红旗
 
-- 矩阵维度正确不代表坐标系链正确。
-- 逆变换的平移通常不是 $-\mathbf t$。
-- 度和弧度混用会产生看似合理的错误。
-- 静态外参也可能方向写反；动态 TF 还必须匹配测量时间。
+- 矩阵维度正确，不代表坐标链正确；
+- 不同坐标系表达的数字不能直接相加；
+- 逆平移通常不是 $-\mathbf t$；
+- 方向向量不应受到平移；
+- RFU 与 ROS 常见 FLU 不能只改帧名；
+- 坐标表达变化不等于物体真实运动；
+- 静态外参可能方向写反，动态 TF 还必须匹配时间。
