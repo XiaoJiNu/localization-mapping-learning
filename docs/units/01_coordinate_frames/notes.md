@@ -24,86 +24,80 @@ $$
 ## 2. 变换符号
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
 {}^{A}\mathbf T_B{}^{B}\mathbf p
 $$
 
 从等式直接读取：
 
-- 输入点表达在 $B$；
-- 输出点表达在 $A$；
+- 输入点表达在坐标系 $B$；
+- 输出点表达在坐标系 $A$；
 - 变换的源坐标系是 $B$；
 - 目标坐标系是 $A$。
 
 自然语言出现歧义时，以完整等式为准。
 
-## 3. 为什么点变换是 $\mathbf R\mathbf p+\mathbf t$
+## 3. 为什么点变换包含旋转和平移
 
-几何关系为：
+纯几何关系为：
 
 $$
-\overrightarrow{O_AP}
-=
-\overrightarrow{O_AO_B}
-+
+\overrightarrow{O_AP} =
+\overrightarrow{O_AO_B} +
 \overrightarrow{O_BP}
 $$
 
-把所有向量统一用 $A$ 表达：
+把所有向量统一用坐标系 $A$ 表达：
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
+{}^{A}\mathbf t_B +
+{}^{A}\mathbf R_B{}^{B}\mathbf p
+$$
+
+通常写成：
+
+$$
+{}^{A}\mathbf p =
+{}^{A}\mathbf R_B{}^{B}\mathbf p +
 {}^{A}\mathbf t_B
-+
-{}^{A}\mathbf R_B{}^{B}\mathbf p
 $$
 
-也就是：
-
-$$
-\boxed{
-{}^{A}\mathbf p
-=
-{}^{A}\mathbf R_B{}^{B}\mathbf p
-+{}^{A}\mathbf t_B
-}
-$$
-
-其中 ${}^{A}\mathbf t_B$ 表示 $O_B$ 在 $A$ 中的坐标。
+其中平移向量表示 $O_B$ 在坐标系 $A$ 中的坐标。
 
 ## 4. 点与方向向量
 
 齐次点和方向向量分别写成：
 
 $$
-\bar{\mathbf p}=
+\bar{\mathbf p} =
 \begin{bmatrix}
-\mathbf p\\1
+\mathbf p\\
+1
 \end{bmatrix},
 \qquad
-\bar{\mathbf v}=
+\bar{\mathbf v} =
 \begin{bmatrix}
-\mathbf v\\0
+\mathbf v\\
+0
 \end{bmatrix}
 $$
 
 因此：
 
 $$
-\mathbf T\bar{\mathbf p}
-=
+\mathbf T\bar{\mathbf p} =
 \begin{bmatrix}
-\mathbf R\mathbf p+\mathbf t\\1
+\mathbf R\mathbf p + \mathbf t\\
+1
 \end{bmatrix}
 $$
 
 $$
-\mathbf T\bar{\mathbf v}
-=
+\mathbf T\bar{\mathbf v} =
 \begin{bmatrix}
-\mathbf R\mathbf v\\0
+\mathbf R\mathbf v\\
+0
 \end{bmatrix}
 $$
 
@@ -111,31 +105,30 @@ $$
 
 ## 5. 旋转矩阵
 
-${}^{A}\mathbf R_B$ 的各列，就是 $B$ 的各坐标轴在 $A$ 中的坐标。
+旋转矩阵的各列，是源坐标系各坐标轴在目标坐标系中的坐标。
 
 合法旋转矩阵满足：
 
 $$
-\mathbf R^{\mathsf T}\mathbf R=\mathbf I
+\mathbf R^{\mathsf T}\mathbf R = \mathbf I
 $$
 
 $$
-\det(\mathbf R)=1
+\det(\mathbf R) = 1
 $$
 
 因此：
 
 $$
-\mathbf R^{-1}=\mathbf R^{\mathsf T}
+\mathbf R^{-1} = \mathbf R^{\mathsf T}
 $$
 
-但完整齐次矩阵一般不满足 $\mathbf T^{-1}=\mathbf T^{\mathsf T}$。
+完整齐次矩阵一般不满足“逆等于转置”。
 
 ## 6. 变换组合
 
 $$
-{}^{A}\mathbf T_C
-=
+{}^{A}\mathbf T_C =
 {}^{A}\mathbf T_B{}^{B}\mathbf T_C
 $$
 
@@ -145,53 +138,39 @@ $$
 
 ## 7. 求逆
 
-若：
+若齐次变换为：
 
 $$
-{}^{A}\mathbf T_B=
+\mathbf T =
 \begin{bmatrix}
-\mathbf R&\mathbf t\\
-\mathbf 0^{\mathsf T}&1
+\mathbf R & \mathbf t\\
+\mathbf 0^{\mathsf T} & 1
 \end{bmatrix}
 $$
 
-则：
+则逆变换为：
 
 $$
-{}^{B}\mathbf T_A
-=
-\left({}^{A}\mathbf T_B\right)^{-1}
-=
+\mathbf T^{-1} =
 \begin{bmatrix}
-\mathbf R^{\mathsf T}&-\mathbf R^{\mathsf T}\mathbf t\\
-\mathbf 0^{\mathsf T}&1
+\mathbf R^{\mathsf T} & -\mathbf R^{\mathsf T}\mathbf t\\
+\mathbf 0^{\mathsf T} & 1
 \end{bmatrix}
 $$
 
-逆平移通常不是简单的 $-\mathbf t$，因为还要重新表达在反向目标坐标系中。
+逆平移通常不是简单的负平移，因为它还要重新表达在逆变换的目标坐标系中。
 
 ## 8. 两个全局位姿求相对位姿
 
-已知：
+已知坐标系 $A$ 和 $B$ 在世界坐标系 $W$ 中的位姿，则：
 
 $$
-{}^{W}\mathbf T_A,
-\qquad
-{}^{W}\mathbf T_B
-$$
-
-则：
-
-$$
-\boxed{
-{}^{A}\mathbf T_B
-=
+{}^{A}\mathbf T_B =
 \left({}^{W}\mathbf T_A\right)^{-1}
 {}^{W}\mathbf T_B
-}
 $$
 
-坐标路径是：
+坐标路径为：
 
 ```text
 B → W → A
@@ -200,7 +179,7 @@ B → W → A
 ## 9. 定位系统坐标链
 
 $$
-{}^{\mathrm{map}}\mathbf p=
+{}^{\mathrm{map}}\mathbf p =
 {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
 {}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
 {}^{\mathrm{base}}\mathbf T_{\mathrm{sensor}}
@@ -215,8 +194,7 @@ $$
 全局车体位姿为：
 
 $$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{base}} =
 {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
 {}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
 $$
@@ -224,8 +202,7 @@ $$
 全局修正可以更新：
 
 $$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
-=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}} =
 {}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
 \left({}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}\right)^{-1}
 $$
@@ -252,10 +229,12 @@ lidar → base → odom → map
 
 1. 用源坐标系原点检查平移；
 2. 用单位轴检查旋转方向；
-3. 检查正反变换和逐段/复合结果：
+3. 检查正反变换和逐段/复合结果。
+
+正反闭环应满足：
 
 $$
-\mathbf T\mathbf T^{-1}\approx\mathbf I
+\mathbf T\mathbf T^{-1} \approx \mathbf I
 $$
 
 ## 12. 怎样使用本页
