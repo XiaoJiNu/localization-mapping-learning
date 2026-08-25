@@ -1,95 +1,246 @@
 # 参考笔记：坐标表达与变换
 
-本页是仓库提供的压缩参考笔记，便于在完成[连续课程](lesson.md)后复习。它不是完整课程，也不是学习者已经掌握的证据。
+本页是单元 01 的压缩参考笔记，不是主课程。第一次学习应以[lesson.md](lesson.md)为主。
 
-请把闭卷回答、推导、实验预测和修正写入[工作簿](workbook.md)的会话副本。若尚未尝试推导，不要用本页结论替代自己的推理过程。
+使用本页的两个时机：
+
+1. 学习 `lesson.md` 时，某个概念仍然不清楚，需要另一种简短表述；
+2. 完成课程和首次练习后，用于复习和核对遗漏。
+
+个人理解、推导、实验和终测应写入[工作簿](workbook.md)的会话副本。本页不能替代自己的过程。
 
 ## 1. 几何对象与坐标不是一回事
 
-空间中的点 $\mathbf p$ 是几何对象。它在坐标系 $A$ 下会有一组对应的数值坐标。换坐标系不会移动真实的点，只会改变描述它的数字。
+空间中的点 $P$ 是几何对象。它在坐标系 $A$ 下的一组数字记作：
 
-本仓库使用列向量，车辆坐标系为右—前—上；右向轴记为 $x$，前向轴记为 $y$，上向轴记为 $z$。
+$$
+{}^{A}\mathbf p
+$$
+
+更换坐标系不会移动真实的点，只会改变描述它的数字。
+
+本仓库采用右—前—上、右手系、列向量和左乘。
 
 ## 2. 变换符号
 
-本仓库把输入表达所在坐标系写在变换下标，把输出表达所在坐标系写在左上标：
-
 $$
-{}^{A}\mathbf p = {}^{A}\mathbf T_B{}^{B}\mathbf p
-$$
-
-读作“坐标系 $B$ 在坐标系 $A$ 中的位姿”，也可读作“从坐标系 $B$ 映射到坐标系 $A$ 的变换”。遇到歧义时不要依赖自然语言，只检查等式两侧的坐标系标记。
-
-## 3. 刚体变换
-
-三维刚体变换由旋转 $\mathbf R$ 和平移 $\mathbf t$ 组成：
-
-$$
-{}^{A}\mathbf p = {}^{A}\mathbf R_B{}^{B}\mathbf p + {}^{A}\mathbf t_B
+{}^{A}\mathbf p =
+{}^{A}\mathbf T_B{}^{B}\mathbf p
 $$
 
-其中平移项表示坐标系 $B$ 原点在坐标系 $A$ 中的坐标。齐次形式把旋转和平移合并：
+从等式直接读取：
+
+- 输入点表达在坐标系 $B$；
+- 输出点表达在坐标系 $A$；
+- 变换的源坐标系是 $B$；
+- 目标坐标系是 $A$。
+
+自然语言出现歧义时，以完整等式为准。
+
+## 3. 为什么点变换包含旋转和平移
+
+纯几何关系为：
 
 $$
-{}^{A}\mathbf T_B =
+\overrightarrow{O_AP} =
+\overrightarrow{O_AO_B} +
+\overrightarrow{O_BP}
+$$
+
+把所有向量统一用坐标系 $A$ 表达：
+
+$$
+{}^{A}\mathbf p =
+{}^{A}\mathbf t_B +
+{}^{A}\mathbf R_B{}^{B}\mathbf p
+$$
+
+通常写成：
+
+$$
+{}^{A}\mathbf p =
+{}^{A}\mathbf R_B{}^{B}\mathbf p +
+{}^{A}\mathbf t_B
+$$
+
+其中平移向量表示 $O_B$ 在坐标系 $A$ 中的坐标。
+
+## 4. 点与方向向量
+
+齐次点和方向向量分别写成：
+
+$$
+\bar{\mathbf p} =
 \begin{bmatrix}
-{}^{A}\mathbf R_B & {}^{A}\mathbf t_B\\
+\mathbf p\\
+1
+\end{bmatrix},
+\qquad
+\bar{\mathbf v} =
+\begin{bmatrix}
+\mathbf v\\
+0
+\end{bmatrix}
+$$
+
+因此：
+
+$$
+\mathbf T\bar{\mathbf p} =
+\begin{bmatrix}
+\mathbf R\mathbf p + \mathbf t\\
+1
+\end{bmatrix}
+$$
+
+$$
+\mathbf T\bar{\mathbf v} =
+\begin{bmatrix}
+\mathbf R\mathbf v\\
+0
+\end{bmatrix}
+$$
+
+点受旋转和平移影响；方向向量只受旋转影响。
+
+## 5. 旋转矩阵
+
+旋转矩阵的各列，是源坐标系各坐标轴在目标坐标系中的坐标。
+
+合法旋转矩阵满足：
+
+$$
+\mathbf R^{\mathsf T}\mathbf R = \mathbf I
+$$
+
+$$
+\det(\mathbf R) = 1
+$$
+
+因此：
+
+$$
+\mathbf R^{-1} = \mathbf R^{\mathsf T}
+$$
+
+完整齐次矩阵一般不满足“逆等于转置”。
+
+## 6. 变换组合
+
+$$
+{}^{A}\mathbf T_C =
+{}^{A}\mathbf T_B{}^{B}\mathbf T_C
+$$
+
+采用列向量时，矩阵从右向左作用。真正的判断依据是：前一段输出坐标系必须等于后一段输入坐标系。
+
+“中间坐标系可以消去”是一种快速检查方法。
+
+## 7. 求逆
+
+若齐次变换为：
+
+$$
+\mathbf T =
+\begin{bmatrix}
+\mathbf R & \mathbf t\\
 \mathbf 0^{\mathsf T} & 1
 \end{bmatrix}
 $$
 
-点要扩展为 $[x,y,z,1]^{\mathsf T}$；纯方向向量扩展为 $[x,y,z,0]^{\mathsf T}$，因此不受平移影响。
-
-## 4. 变换链
-
-中间坐标系必须相邻消去：
+则逆变换为：
 
 $$
+\mathbf T^{-1} =
+\begin{bmatrix}
+\mathbf R^{\mathsf T} & -\mathbf R^{\mathsf T}\mathbf t\\
+\mathbf 0^{\mathsf T} & 1
+\end{bmatrix}
+$$
+
+逆平移通常不是简单的负平移，因为它还要重新表达在逆变换的目标坐标系中。
+
+## 8. 两个全局位姿求相对位姿
+
+已知坐标系 $A$ 和 $B$ 在世界坐标系 $W$ 中的位姿，则：
+
+$$
+{}^{A}\mathbf T_B =
+\left({}^{W}\mathbf T_A\right)^{-1}
+{}^{W}\mathbf T_B
+$$
+
+坐标路径为：
+
+```text
+B → W → A
+```
+
+## 9. 定位系统坐标链
+
+$$
+{}^{\mathrm{map}}\mathbf p =
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+{}^{\mathrm{base}}\mathbf T_{\mathrm{sensor}}
+{}^{\mathrm{sensor}}\mathbf p
+$$
+
+- `sensor`：原始观测坐标系；
+- `base`：车体坐标系；
+- `odom`：局部连续但可能漂移；
+- `map`：全局一致参考系。
+
+全局车体位姿为：
+
+$$
+{}^{\mathrm{map}}\mathbf T_{\mathrm{base}} =
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+$$
+
+全局修正可以更新：
+
+$$
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}} =
 {}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-= {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+\left({}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}\right)^{-1}
 $$
 
-矩阵从右向左作用。一个实用检查方法是把坐标系名称写成点坐标的映射路径：
-$\mathtt{base}\to\mathtt{odom}\to\mathtt{map}$。
+从而保持局部里程计输出连续。
 
-## 5. 求逆
+## 10. TF 与时间
 
-若已知从坐标系 $B$ 到坐标系 $A$ 的变换，反向映射是：
+TF 树常按父帧到子帧画：
+
+```text
+map → odom → base → lidar
+```
+
+点坐标映射则从源到目标计算：
+
+```text
+lidar → base → odom → map
+```
+
+动态变换必须使用测量产生时刻。处理时间晚于测量时间时，不能直接使用处理时刻的最新 TF。
+
+## 11. 三种快速自检
+
+1. 用源坐标系原点检查平移；
+2. 用单位轴检查旋转方向；
+3. 检查正反变换和逐段/复合结果。
+
+正反闭环应满足：
 
 $$
-{}^{B}\mathbf T_A = \left({}^{A}\mathbf T_B\right)^{-1}
+\mathbf T\mathbf T^{-1} \approx \mathbf I
 $$
 
-旋转矩阵的逆等于转置，但齐次变换的平移不能只改符号；它还要旋转到目标坐标系中。
+## 12. 怎样使用本页
 
-## 6. 定位系统中的三层坐标系
-
-- `base`：车体坐标系，传感器外参通常连接到这里。
-- `odom`：局部连续坐标系。里程计输出车体在该坐标系中的局部位姿，短期平滑但长期漂移。
-- `map`：全局一致坐标系。SLAM、GNSS 或重定位修正里程计坐标系在地图坐标系中的全局对齐关系。
-
-于是：
-
-$$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-= {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
-$$
-
-回环或全局测量到达时，保持车体在里程计坐标系中的局部位姿连续，把修正放到里程计坐标系与地图坐标系的全局对齐关系中，可以避免控制使用的局部位姿突然跳变。
-
-## 7. 时间是变换的一部分
-
-动态坐标系的变换随时间变化。对产生于 $t_L$ 的激光点，应查询或插值 $t_L$ 时刻的 TF，而不是处理该消息的当前时间。否则即使矩阵链的方向正确，也会产生运动畸变或融合偏差。
-
-## 8. 三种快速自检
-
-1. **单位变换**：同一坐标系到自身的变换必须是单位矩阵。
-2. **闭环检查**：一个变换与它的反向变换复合后必须接近单位矩阵。
-3. **简单点检查**：先用原点和坐标轴单位向量测试，再处理真实点云。
-
-## 9. 怎样使用本页
-
-1. 单元预检后，只查阅与错误对应的部分。
-2. 合上本页，用自己的话重写核心关系。
-3. 完成闭卷推导和实验后，再用本页核对是否遗漏坐标系、时间和失败条件。
-4. 将真实发生的错误写入 [mistakes.md](mistakes.md)，不要把本页复制成“个人总结”。
+1. 第一次学习时，先读[lesson.md](lesson.md)；
+2. 某个概念仍不清楚时，只查看本页对应小节；
+3. 完成课程后，合上资料完成[工作簿](workbook.md)中的练习；
+4. 完成独立尝试后，再用本页核对遗漏；
+5. 真实错误写入[mistakes.md](mistakes.md)，不要把本页复制成个人总结。
