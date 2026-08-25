@@ -1,118 +1,449 @@
 # 参考推导与核对步骤
 
-本页包含参考推导。请先在[无答案工作簿](workbook.md#阶段-3闭卷推导)中完成完整尝试，再打开本页核对第一处错误。
+本页包含参考过程。请先在[工作簿](workbook.md)的“步骤 3：练习与推导”中完成全部题目的独立尝试，再打开本页核对第一处差异。
 
-参考答案存在不代表学习者已经完成推导。可验证证据应保存在 `sessions/` 中，并同时保留原始错误、修正过程和不看答案后的再次推导。
+不要用本页覆盖原始错误。可验证证据应保存在 `sessions/` 中，并同时保留：原始过程、第一处错误、修正原因和不看答案后的再次完成。
 
-所有推导使用列向量，并约定变换的下标表示源坐标系，左上标表示目标坐标系。
+所有推导使用列向量，并约定变换下标表示源坐标系，左上标表示目标坐标系。
 
-## 1. 变换复合
+## D1：二维点变换
 
 已知：
 
 $$
-{}^{A}\mathbf p = {}^{A}\mathbf T_B{}^{B}\mathbf p,
+{}^{A}\mathbf R_B=
+\begin{bmatrix}
+0&-1\\
+1&0
+\end{bmatrix},
 \qquad
-{}^{B}\mathbf p = {}^{B}\mathbf T_C{}^{C}\mathbf p
+{}^{A}\mathbf t_B=
+\begin{bmatrix}
+3\\1
+\end{bmatrix},
+\qquad
+{}^{B}\mathbf p=
+\begin{bmatrix}
+2\\1
+\end{bmatrix}
 $$
 
-代入得到：
+先计算旋转部分：
+
+$$
+{}^{A}\mathbf R_B{}^{B}\mathbf p
+=
+\begin{bmatrix}
+0&-1\\
+1&0
+\end{bmatrix}
+\begin{bmatrix}
+2\\1
+\end{bmatrix}
+=
+\begin{bmatrix}
+-1\\2
+\end{bmatrix}
+$$
+
+它表示：
+
+$$
+\overrightarrow{O_BP}
+$$
+
+在坐标系 $A$ 中的坐标表达，不是点 $P$ 在 $A$ 中的最终坐标。
+
+再加平移：
 
 $$
 {}^{A}\mathbf p
-= {}^{A}\mathbf T_B{}^{B}\mathbf T_C{}^{C}\mathbf p
-= {}^{A}\mathbf T_C{}^{C}\mathbf p
+=
+\begin{bmatrix}
+-1\\2
+\end{bmatrix}
++
+\begin{bmatrix}
+3\\1
+\end{bmatrix}
+=
+\begin{bmatrix}
+2\\3
+\end{bmatrix}
+$$
+
+几何关系为：
+
+$$
+\overrightarrow{O_AP}
+=
+\overrightarrow{O_AO_B}
++
+\overrightarrow{O_BP}
+$$
+
+数值上：
+
+$$
+\begin{bmatrix}
+2\\3
+\end{bmatrix}
+=
+\begin{bmatrix}
+3\\1
+\end{bmatrix}
++
+\begin{bmatrix}
+-1\\2
+\end{bmatrix}
+$$
+
+## D2：旋转矩阵与坐标轴
+
+对于：
+
+$$
+{}^{A}\mathbf R_B=
+\begin{bmatrix}
+0&-1\\
+1&0
+\end{bmatrix}
+$$
+
+第一列为：
+
+$$
+{}^{A}\mathbf e_{x_B}
+=
+\begin{bmatrix}
+0\\1
+\end{bmatrix}
+$$
+
+表示 $B$ 的 $x_B$ 轴在 $A$ 中向上。
+
+第二列为：
+
+$$
+{}^{A}\mathbf e_{y_B}
+=
+\begin{bmatrix}
+-1\\0
+\end{bmatrix}
+$$
+
+表示 $B$ 的 $y_B$ 轴在 $A$ 中向左。
+
+合法旋转矩阵满足：
+
+$$
+\mathbf R^{\mathsf T}\mathbf R=\mathbf I
+$$
+
+$$
+\det(\mathbf R)=1
+$$
+
+因为各列都是单位向量且互相正交，所以：
+
+$$
+\mathbf R^{-1}=\mathbf R^{\mathsf T}
+$$
+
+该性质只适用于正交矩阵，不能推广到任意可逆矩阵。
+
+## D3：变换组合
+
+已知：
+
+$$
+{}^{B}\mathbf p
+=
+{}^{B}\mathbf T_C{}^{C}\mathbf p
+$$
+
+$$
+{}^{A}\mathbf p
+=
+{}^{A}\mathbf T_B{}^{B}\mathbf p
+$$
+
+把第一式代入第二式：
+
+$$
+{}^{A}\mathbf p
+=
+{}^{A}\mathbf T_B
+{}^{B}\mathbf T_C
+{}^{C}\mathbf p
 $$
 
 因此：
 
 $$
-\boxed{{}^{A}\mathbf T_C = {}^{A}\mathbf T_B{}^{B}\mathbf T_C}
+\boxed{
+{}^{A}\mathbf T_C
+=
+{}^{A}\mathbf T_B{}^{B}\mathbf T_C
+}
 $$
 
-检查点：乘号两侧相邻的 $B$ 正好消去。
+采用列向量时，最靠近点的 ${}^{B}\mathbf T_C$ 最先作用。
 
-## 2. 齐次变换求逆
-
-设：
+“相邻坐标系消去”：
 
 $$
-{}^{A}\mathbf T_B =
-\begin{bmatrix}\mathbf R&\mathbf t\\\mathbf 0^{\mathsf T}&1\end{bmatrix}
+{}^{A}\mathbf T_{\cancel B}
+{}^{\cancel B}\mathbf T_C
+=
+{}^{A}\mathbf T_C
 $$
 
-从点变换的旋转和平移形式开始：
+只是检查方法。数学来源是代入关系，以及前一段输出坐标系必须等于后一段输入坐标系。
+
+若：
 
 $$
-{}^{A}\mathbf p=\mathbf R{}^{B}\mathbf p+\mathbf t
+{}^{A}\mathbf T_B=
+\begin{bmatrix}
+{}^{A}\mathbf R_B&{}^{A}\mathbf t_B\\
+0&1
+\end{bmatrix}
 $$
 
-移项得到：
+$$
+{}^{B}\mathbf T_C=
+\begin{bmatrix}
+{}^{B}\mathbf R_C&{}^{B}\mathbf t_C\\
+0&1
+\end{bmatrix}
+$$
+
+则：
 
 $$
-{}^{B}\mathbf p=\mathbf R^{\mathsf T}{}^{A}\mathbf p-\mathbf R^{\mathsf T}\mathbf t
+{}^{A}\mathbf R_C
+=
+{}^{A}\mathbf R_B{}^{B}\mathbf R_C
+$$
+
+$$
+{}^{A}\mathbf t_C
+=
+{}^{A}\mathbf R_B{}^{B}\mathbf t_C
++{}^{A}\mathbf t_B
+$$
+
+第二式中，${}^{B}\mathbf t_C$ 必须先转成 $A$ 的表达，才能与 ${}^{A}\mathbf t_B$ 相加。
+
+## D4：齐次刚体变换求逆
+
+从：
+
+$$
+{}^{A}\mathbf p
+=
+{}^{A}\mathbf R_B{}^{B}\mathbf p
++{}^{A}\mathbf t_B
+$$
+
+开始。先移项：
+
+$$
+{}^{A}\mathbf p-{}^{A}\mathbf t_B
+=
+{}^{A}\mathbf R_B{}^{B}\mathbf p
+$$
+
+左乘旋转的逆：
+
+$$
+{}^{B}\mathbf p
+=
+\left({}^{A}\mathbf R_B\right)^{-1}
+\left({}^{A}\mathbf p-{}^{A}\mathbf t_B\right)
+$$
+
+利用旋转矩阵性质：
+
+$$
+\left({}^{A}\mathbf R_B\right)^{-1}
+=
+\left({}^{A}\mathbf R_B\right)^{\mathsf T}
+$$
+
+得到：
+
+$$
+{}^{B}\mathbf p
+=
+\left({}^{A}\mathbf R_B\right)^{\mathsf T}{}^{A}\mathbf p
+-
+\left({}^{A}\mathbf R_B\right)^{\mathsf T}{}^{A}\mathbf t_B
+$$
+
+因此：
+
+$$
+{}^{B}\mathbf R_A
+=
+\left({}^{A}\mathbf R_B\right)^{\mathsf T}
+$$
+
+$$
+{}^{B}\mathbf t_A
+=
+-
+\left({}^{A}\mathbf R_B\right)^{\mathsf T}{}^{A}\mathbf t_B
+$$
+
+完整逆变换为：
+
+$$
+\boxed{
+{}^{B}\mathbf T_A
+=
+\left({}^{A}\mathbf T_B\right)^{-1}
+=
+\begin{bmatrix}
+\left({}^{A}\mathbf R_B\right)^{\mathsf T}
+&
+-\left({}^{A}\mathbf R_B\right)^{\mathsf T}{}^{A}\mathbf t_B\\
+\mathbf 0^{\mathsf T}&1
+\end{bmatrix}
+}
+$$
+
+逆平移通常不是简单的 $-\mathbf t$，因为方向反转后，还必须把向量重新表达在反向目标坐标系中。
+
+完整齐次变换一般不满足：
+
+$$
+\mathbf T^{-1}=\mathbf T^{\mathsf T}
+$$
+
+数值自检：
+
+$$
+\mathbf T\mathbf T^{-1}\approx\mathbf I
+$$
+
+并对任意点检查：
+
+$$
+{}^{B}\mathbf p
+\xrightarrow{{}^{A}\mathbf T_B}
+{}^{A}\mathbf p
+\xrightarrow{{}^{B}\mathbf T_A}
+{}^{B}\mathbf p
+$$
+
+## D5：根据全局位姿求相对位姿
+
+已知：
+
+$$
+{}^{W}\mathbf T_A,
+\qquad
+{}^{W}\mathbf T_B
+$$
+
+目标是把点坐标从 $B$ 转到 $A$。坐标路径为：
+
+```text
+B → W → A
+```
+
+其中：
+
+$$
+{}^{A}\mathbf T_W
+=
+\left({}^{W}\mathbf T_A\right)^{-1}
 $$
 
 所以：
 
 $$
-\boxed{\left({}^{A}\mathbf T_B\right)^{-1}={}^{B}\mathbf T_A=
-\begin{bmatrix}
-\mathbf R^{\mathsf T}&-\mathbf R^{\mathsf T}\mathbf t\\
-\mathbf 0^{\mathsf T}&1
-\end{bmatrix}}
+\boxed{
+{}^{A}\mathbf T_B
+=
+\left({}^{W}\mathbf T_A\right)^{-1}
+{}^{W}\mathbf T_B
+}
 $$
 
-容易犯的错误是把逆变换的平移直接写成 $-\mathbf t$。对给定的
-$\mathbf t$，只有在 $\mathbf R^{\mathsf T}\mathbf t=\mathbf t$ 时，两者才相同；
-若要求对任意平移都能这样简化，则必须有 $\mathbf R=\mathbf I$。
-
-## 3. 点与方向向量
-
-齐次点和方向分别写成：
+检查上下标：
 
 $$
-\bar{\mathbf p}=\begin{bmatrix}\mathbf p\\1\end{bmatrix},
+{}^{A}\mathbf T_{\cancel W}
+{}^{\cancel W}\mathbf T_B
+=
+{}^{A}\mathbf T_B
+$$
+
+## D6：完整定位坐标链
+
+已知：
+
+$$
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}},
 \qquad
-\bar{\mathbf v}=\begin{bmatrix}\mathbf v\\0\end{bmatrix}
-$$
-
-因此：
-
-$$
-\mathbf T\bar{\mathbf p}=\begin{bmatrix}\mathbf R\mathbf p+\mathbf t\\1\end{bmatrix},
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}},
 \qquad
-\mathbf T\bar{\mathbf v}=\begin{bmatrix}\mathbf R\mathbf v\\0\end{bmatrix}
+{}^{\mathrm{base}}\mathbf T_{\mathrm{lidar}},
+\qquad
+{}^{\mathrm{lidar}}\mathbf p
 $$
 
-这说明平移改变点的位置，但不改变速度方向、法向量等纯方向量。
-
-## 4. `odom` 到 `map` 变换的计算
-
-若全局定位给出车体在地图坐标系中的位姿，局部里程计给出车体在里程计坐标系中的位姿，则有：
+完整点变换为：
 
 $$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-={}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+\boxed{
+{}^{\mathrm{map}}\mathbf p
+=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+{}^{\mathrm{base}}\mathbf T_{\mathrm{lidar}}
+{}^{\mathrm{lidar}}\mathbf p
+}
 $$
 
-在等式两边右乘局部里程计变换的逆：
+执行路径为：
+
+```text
+lidar → base → odom → map
+```
+
+最终复合变换为：
 
 $$
-\boxed{{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
-={}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-\left({}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}\right)^{-1}}
+{}^{\mathrm{map}}\mathbf T_{\mathrm{lidar}}
+=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
+{}^{\mathrm{base}}\mathbf T_{\mathrm{lidar}}
 $$
 
-全局修正更新左侧这项，就能保留局部里程计的连续输出。
+TF 树按父帧到子帧常画成：
 
-## 数值练习
+```text
+map → odom → base → lidar
+```
 
-不要直接看代码，先完成以下操作：
+它描述父子拓扑；点坐标映射路径描述源坐标到目标坐标的计算，所以箭头看起来相反。
 
-1. 设坐标系 $B$ 相对坐标系 $A$ 绕 $+z$ 旋转 $90^\circ$，且 $B$ 的原点在 $A$ 中为 $[1,2,0]^{\mathsf T}$，写出从坐标系 $B$ 映射到坐标系 $A$ 的齐次变换。
-2. 将点在坐标系 $B$ 中的坐标 $[1,0,0]^{\mathsf T}$ 映射到坐标系 $A$。
-3. 手算逆变换，再把结果映射回坐标系 $B$。
-4. 用数值程序验证两个方向的误差小于 $10^{-9}$。
+动态变换必须使用测量产生时刻。若点在 $t_m$ 产生，则应使用：
 
-该练习与工作簿 D1 对应。完成手算后，可以用前文公式核对结构，再通过[实验 001](../../../experiments/exp_001_transform_chain/README.md)形成本人运行的数值证据。
+$$
+{}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}(t_m)
+$$
+
+而不是消息处理时刻的最新变换。
+
+## 核对完成后
+
+1. 在工作簿中标出自己的第一处错误；
+2. 合上本页重新完成对应题目；
+3. 继续运行[实验 001](../../../experiments/exp_001_transform_chain/README.md)；
+4. 真实、可复现的错误写入[mistakes.md](mistakes.md)。
