@@ -43,8 +43,7 @@ $$
 \begin{bmatrix}
 2\\
 1
-\end{bmatrix}
-=
+\end{bmatrix} =
 \begin{bmatrix}
 -1\\
 2
@@ -66,13 +65,11 @@ $$
 \begin{bmatrix}
 -1\\
 2
-\end{bmatrix}
-+
+\end{bmatrix} +
 \begin{bmatrix}
 3\\
 1
-\end{bmatrix}
-=
+\end{bmatrix} =
 \begin{bmatrix}
 2\\
 3
@@ -93,13 +90,11 @@ $$
 \begin{bmatrix}
 2\\
 3
-\end{bmatrix}
-=
+\end{bmatrix} =
 \begin{bmatrix}
 3\\
 1
-\end{bmatrix}
-+
+\end{bmatrix} +
 \begin{bmatrix}
 -1\\
 2
@@ -269,8 +264,7 @@ $$
 $$
 {}^{B}\mathbf p =
 \left({}^{A}\mathbf R_B\right)^{\mathsf T}
-{}^{A}\mathbf p
--
+{}^{A}\mathbf p -
 \left({}^{A}\mathbf R_B\right)^{\mathsf T}
 {}^{A}\mathbf t_B
 $$
@@ -285,8 +279,7 @@ $$
 以及逆平移：
 
 $$
-{}^{B}\mathbf t_A =
--
+{}^{B}\mathbf t_A = -
 \left({}^{A}\mathbf R_B\right)^{\mathsf T}
 {}^{A}\mathbf t_B
 $$
@@ -295,8 +288,7 @@ $$
 
 $$
 {}^{B}\mathbf T_A =
-\left({}^{A}\mathbf T_B\right)^{-1}
-=
+\left({}^{A}\mathbf T_B\right)^{-1} =
 \begin{bmatrix}
 \left({}^{A}\mathbf R_B\right)^{\mathsf T} &
 -\left({}^{A}\mathbf R_B\right)^{\mathsf T}{}^{A}\mathbf t_B\\
