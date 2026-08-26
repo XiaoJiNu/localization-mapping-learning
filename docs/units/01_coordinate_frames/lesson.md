@@ -14,7 +14,7 @@ GitHub 文件页面不会直接运行 HTML。请下载该文件后，用 Chrome�
 
 ---
 
-# 先记住总答案
+## 先记住总答案
 
 坐标变换只做两件事：
 
@@ -24,8 +24,7 @@ GitHub 文件页面不会直接运行 HTML。请下载该文件后，用 Chrome�
 所以：
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
 {}^{A}\mathbf R_B{}^{B}\mathbf p
 +
 {}^{A}\mathbf t_B
@@ -39,7 +38,7 @@ $$
 
 ---
 
-# 图 1：坐标只是“尺子的读数”
+## 图 1：坐标只是“尺子的读数”
 
 想象桌上有一个没有移动的点 $P$，旁边放了两把尺子：
 
@@ -56,15 +55,15 @@ $$
 
 变化的是读数，不是点。
 
-## 只记住
+### 只记住
 
 > **物理点是对象；坐标是对象在某个坐标系下的数字说明。**
 
 ---
 
-# 图 2：点和方向向量不一样
+## 图 2：点和方向向量不一样
 
-## 点
+### 点
 
 点要回答：
 
@@ -73,14 +72,13 @@ $$
 所以换原点时，点会受到平移影响：
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
 {}^{A}\mathbf R_B{}^{B}\mathbf p
 +
 {}^{A}\mathbf t_B
 $$
 
-## 方向向量
+### 方向向量
 
 方向向量只回答：
 
@@ -89,37 +87,33 @@ $$
 方向向量可以由两个点相减得到：
 
 $$
-\mathbf v
-=
+\mathbf v =
 \mathbf p_2-\mathbf p_1
 $$
 
 两个端点一起平移后：
 
 $$
-(\mathbf p_2+\mathbf t)
--
-(\mathbf p_1+\mathbf t)
-=
+(\mathbf p_2+\mathbf t) -
+(\mathbf p_1+\mathbf t) =
 \mathbf p_2-\mathbf p_1
 $$
 
 平移抵消，所以：
 
 $$
-{}^{A}\mathbf v
-=
+{}^{A}\mathbf v =
 {}^{A}\mathbf R_B{}^{B}\mathbf v
 $$
 
-## 只记住
+### 只记住
 
 - 点会吃到平移；
 - 方向向量不会吃到平移。
 
 ---
 
-# 图 3：为什么一定是旋转后加平移
+## 图 3：为什么一定是旋转后加平移
 
 三个点分别是：
 
@@ -130,8 +124,7 @@ $$
 纯几何关系只有一句：
 
 $$
-\overrightarrow{O_AP}
-=
+\overrightarrow{O_AP} =
 \overrightarrow{O_AO_B}
 +
 \overrightarrow{O_BP}
@@ -150,16 +143,14 @@ $$
 其中：
 
 $$
-{}^{A}\mathbf t_B
-=
+{}^{A}\mathbf t_B =
 [\overrightarrow{O_AO_B}]_A
 $$
 
 而输入坐标：
 
 $$
-{}^{B}\mathbf p
-=
+{}^{B}\mathbf p =
 [\overrightarrow{O_BP}]_B
 $$
 
@@ -168,34 +159,31 @@ $$
 先把它改用 $A$ 表达：
 
 $$
-[\overrightarrow{O_BP}]_A
-=
+[\overrightarrow{O_BP}]_A =
 {}^{A}\mathbf R_B{}^{B}\mathbf p
 $$
 
 于是：
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
 {}^{A}\mathbf R_B{}^{B}\mathbf p
 +
 {}^{A}\mathbf t_B
 $$
 
-## 只记住
+### 只记住
 
-> 旋转矩阵负责统一方向，平移向量负责补原点差。
+> $R$ 负责统一方向，$t$ 负责补原点差。
 
 ---
 
-# 图 4：旋转矩阵其实是几根坐标轴
+## 图 4：旋转矩阵其实是几根坐标轴
 
 二维旋转矩阵为：
 
 $$
-{}^{A}\mathbf R_B
-=
+{}^{A}\mathbf R_B =
 \begin{bmatrix}
 \cos\theta & -\sin\theta\\
 \sin\theta & \cos\theta
@@ -207,8 +195,7 @@ $$
 把它看成两列箭头：
 
 $$
-{}^{A}\mathbf R_B
-=
+{}^{A}\mathbf R_B =
 \begin{bmatrix}
 \vert & \vert\\
 {}^{A}\mathbf e_{x_B}
@@ -224,8 +211,7 @@ $$
 如果：
 
 $$
-{}^{B}\mathbf p
-=
+{}^{B}\mathbf p =
 \begin{bmatrix}
 x_B\\
 y_B
@@ -235,30 +221,26 @@ $$
 那么矩阵乘法是在做：
 
 $$
-{}^{A}\mathbf R_B{}^{B}\mathbf p
-=
+{}^{A}\mathbf R_B{}^{B}\mathbf p =
 x_B{}^{A}\mathbf e_{x_B}
 +
 y_B{}^{A}\mathbf e_{y_B}
 $$
 
-## 合法旋转矩阵的三个检查
+### 合法旋转矩阵的三个检查
 
 $$
-\mathbf R^{\mathsf T}\mathbf R
-=
+\mathbf R^{\mathsf T}\mathbf R =
 \mathbf I
 $$
 
 $$
-\det(\mathbf R)
-=
+\det(\mathbf R) =
 1
 $$
 
 $$
-\mathbf R^{-1}
-=
+\mathbf R^{-1} =
 \mathbf R^{\mathsf T}
 $$
 
@@ -266,13 +248,12 @@ $$
 
 ---
 
-# 图 5：齐次坐标的最后一位是“平移开关”
+## 图 5：齐次坐标的最后一位是“平移开关”
 
 齐次变换把旋转和平移放入一个矩阵：
 
 $$
-{}^{A}\mathbf T_B
-=
+{}^{A}\mathbf T_B =
 \begin{bmatrix}
 {}^{A}\mathbf R_B
 &
@@ -283,11 +264,10 @@ $$
 \end{bmatrix}
 $$
 
-## 点：最后一位为 1
+### 点：最后一位为 1
 
 $$
-{}^{B}\bar{\mathbf p}
-=
+{}^{B}\bar{\mathbf p} =
 \begin{bmatrix}
 {}^{B}\mathbf p\\
 1
@@ -297,8 +277,7 @@ $$
 所以平移列会乘上 1：
 
 $$
-{}^{A}\mathbf T_B{}^{B}\bar{\mathbf p}
-=
+{}^{A}\mathbf T_B{}^{B}\bar{\mathbf p} =
 \begin{bmatrix}
 {}^{A}\mathbf R_B{}^{B}\mathbf p
 +
@@ -307,11 +286,10 @@ $$
 \end{bmatrix}
 $$
 
-## 方向向量：最后一位为 0
+### 方向向量：最后一位为 0
 
 $$
-{}^{B}\bar{\mathbf v}
-=
+{}^{B}\bar{\mathbf v} =
 \begin{bmatrix}
 {}^{B}\mathbf v\\
 0
@@ -321,43 +299,39 @@ $$
 所以平移列会乘上 0：
 
 $$
-{}^{A}\mathbf T_B{}^{B}\bar{\mathbf v}
-=
+{}^{A}\mathbf T_B{}^{B}\bar{\mathbf v} =
 \begin{bmatrix}
 {}^{A}\mathbf R_B{}^{B}\mathbf v\\
 0
 \end{bmatrix}
 $$
 
-## 只记住
+### 只记住
 
 > 末位 1：平移打开。末位 0：平移关闭。
 
 ---
 
-# 图 6：多个变换像接力传球
+## 图 6：多个变换像接力传球
 
 假设点先从 $C$ 变到 $B$：
 
 $$
-{}^{B}\mathbf p
-=
+{}^{B}\mathbf p =
 {}^{B}\mathbf T_C{}^{C}\mathbf p
 $$
 
 再从 $B$ 变到 $A$：
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
 {}^{A}\mathbf T_B{}^{B}\mathbf p
 $$
 
 代入得到：
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
 {}^{A}\mathbf T_B
 {}^{B}\mathbf T_C
 {}^{C}\mathbf p
@@ -366,8 +340,7 @@ $$
 所以：
 
 $$
-{}^{A}\mathbf T_C
-=
+{}^{A}\mathbf T_C =
 {}^{A}\mathbf T_B{}^{B}\mathbf T_C
 $$
 
@@ -387,13 +360,12 @@ A 中的点
 
 ---
 
-# 图 7：逆变换不是简单地把平移变负
+## 图 7：逆变换不是简单地把平移变负
 
 正向变换：
 
 $$
-{}^{A}\mathbf p
-=
+{}^{A}\mathbf p =
 {}^{A}\mathbf R_B{}^{B}\mathbf p
 +
 {}^{A}\mathbf t_B
@@ -402,12 +374,10 @@ $$
 反向求解：
 
 $$
-{}^{B}\mathbf p
-=
+{}^{B}\mathbf p =
 \left({}^{A}\mathbf R_B\right)^{\mathsf T}
 \left(
-{}^{A}\mathbf p
--
+{}^{A}\mathbf p -
 {}^{A}\mathbf t_B
 \right)
 $$
@@ -415,14 +385,11 @@ $$
 所以：
 
 $$
-{}^{B}\mathbf T_A
-=
-\left({}^{A}\mathbf T_B\right)^{-1}
-=
+{}^{B}\mathbf T_A =
+\left({}^{A}\mathbf T_B\right)^{-1} =
 \begin{bmatrix}
 \left({}^{A}\mathbf R_B\right)^{\mathsf T}
-&
--
+& -
 \left({}^{A}\mathbf R_B\right)^{\mathsf T}
 {}^{A}\mathbf t_B\\
 \mathbf 0^{\mathsf T}
@@ -435,7 +402,7 @@ $$
 
 因为反向走以后，平移向量还要改用反向目标坐标系表达。
 
-## 自检
+### 自检
 
 $$
 {}^{A}\mathbf T_B{}^{B}\mathbf T_A
@@ -447,7 +414,7 @@ $$
 
 ---
 
-# 图 8：两个全局位姿怎样得到相对位姿
+## 图 8：两个全局位姿怎样得到相对位姿
 
 世界坐标系记为 $W$。
 
@@ -474,8 +441,7 @@ B → W → A
 先从 $B$ 到 $W$，再用 $A$ 的全局位姿的逆从 $W$ 到 $A$：
 
 $$
-{}^{A}\mathbf T_B
-=
+{}^{A}\mathbf T_B =
 \left({}^{W}\mathbf T_A\right)^{-1}
 {}^{W}\mathbf T_B
 $$
@@ -484,7 +450,7 @@ $$
 
 ---
 
-# 图 9：定位系统中的四层坐标系
+## 图 9：定位系统中的四层坐标系
 
 | 坐标系 | 像什么 | 主要任务 |
 |---|---|---|
@@ -496,8 +462,7 @@ $$
 激光点到地图的完整链：
 
 $$
-{}^{\mathrm{map}}\mathbf p
-=
+{}^{\mathrm{map}}\mathbf p =
 {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
 {}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
 {}^{\mathrm{base}}\mathbf T_{\mathrm{lidar}}
@@ -513,8 +478,7 @@ lidar → base → odom → map
 车体全局位姿：
 
 $$
-{}^{\mathrm{map}}\mathbf T_{\mathrm{base}}
-=
+{}^{\mathrm{map}}\mathbf T_{\mathrm{base}} =
 {}^{\mathrm{map}}\mathbf T_{\mathrm{odom}}
 {}^{\mathrm{odom}}\mathbf T_{\mathrm{base}}
 $$
@@ -533,7 +497,7 @@ $$
 
 这样局部控制不会因为全局修正突然跳变。
 
-## TF 树为什么箭头看起来相反
+### TF 树为什么箭头看起来相反
 
 TF 树通常按父帧到子帧画：
 
@@ -551,7 +515,7 @@ lidar → base → odom → map
 
 ---
 
-# 图 10：时间也是变换的一部分
+## 图 10：时间也是变换的一部分
 
 动态位姿应该写成：
 
@@ -595,7 +559,7 @@ $$
 
 ---
 
-# 最后：固定调试顺序
+## 最后：固定调试顺序
 
 矩阵能相乘，只说明维度允许，不说明坐标语义正确。
 
@@ -613,7 +577,7 @@ $$
 10. 核对单位、角度制和时间戳；
 11. 最后才换成真实点云或复杂数据。
 
-## 最终口令
+### 最终口令
 
 遇到任何坐标变换，先问三句话：
 
@@ -621,7 +585,7 @@ $$
 
 ---
 
-# 学完以后做什么
+## 学完以后做什么
 
 本页只完成“建立直觉”。
 
