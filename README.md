@@ -1,95 +1,79 @@
 # ChatGPT 辅助定位建图系统学习与工程实践
 
-`localization-mapping-learning` 是一个公开的定位、建图与状态估计学习仓库。
+> 当前分支：`feat/20h-micro-lessons`
 
-它不只保存知识笔记，还保存学习过程中的推导、实验、错题、测验和复习记录。目标不是“读过很多资料”，而是能够用可检查的结果证明自己会解释、会计算、会运行、会诊断、会选型。
+本分支参考 `microeconomicsLearning` 的每日短课结构，把定位建图第一轮 **20 小时**课程完整拆成 **100 节 10～15 分钟微课程**。目标不是把长文切碎，而是让每次学习只解决一个核心问题，并形成最小可验证证据。
 
 ## 30 秒开始
 
-第一次进入仓库时，不要从头浏览所有目录，也不要先看答案。普通学习者只需要按下面的顺序操作：
+1. 打开[20 小时微课程总目录](docs/micro_courses/README.md)；
+2. 进入[单元 01：坐标系与变换链](docs/micro_courses/01_coordinate_frames/README.md)；
+3. 复制该单元的[工作簿](docs/micro_courses/01_coordinate_frames/workbook.md)；
+4. 学习[第一课：同一个点为什么会有不同坐标？](docs/micro_courses/01_coordinate_frames/lesson_01_same_point_different_coordinates.md)；
+5. 完成最小练习和一分钟无稿复述后停止，下次沿“下一课”继续。
 
-1. 打开[学习单元目录](docs/units/README.md)，选择当前单元；
-2. 打开该单元的 `README.md`，它会告诉你每一步做什么、看哪个文件；
-3. 复制该单元的 `workbook.md` 到 `sessions/`，作为自己的学习记录；
-4. 从头到尾学习 `lesson.md`，学习完成前不打开终测；
-5. 按工作簿完成练习、实验和故障分析；
-6. 最后打开 `quiz.md` 统一考试，提交答案后再看 `quiz_answers.md`。
+## 课程规模
 
-当前可直接开始的单元是：[单元 01：坐标系与变换链](docs/units/01_coordinate_frames/README.md)。
+$$
+10~\text{个单元}
+\times 10~\text{节/单元}
+\times 12~\text{分钟/节}
+=20~\text{小时}
+$$
 
-> 最常用的三个文件只有：单元 `README.md`、`lesson.md` 和 `workbook.md`。其余文件等单元主页提示时再打开，不需要提前理解整个仓库结构。
+| 单元 | 主题 | 微课数 | 第一轮预算 |
+|---:|---|---:|---:|
+| 01 | [坐标系与变换链](docs/micro_courses/01_coordinate_frames/README.md) | 10 | 约 2 h |
+| 02 | [旋转与刚体位姿](docs/micro_courses/02_rotations_rigid_poses/README.md) | 10 | 约 2 h |
+| 03 | [传感器、时间与标定](docs/micro_courses/03_sensors_time_calibration/README.md) | 10 | 约 2 h |
+| 04 | [最小二乘](docs/micro_courses/04_least_squares/README.md) | 10 | 约 2 h |
+| 05 | [概率与卡尔曼滤波](docs/micro_courses/05_probability_kalman/README.md) | 10 | 约 2 h |
+| 06 | [IMU 与轮式推算](docs/micro_courses/06_imu_wheel_odometry/README.md) | 10 | 约 2 h |
+| 07 | [局部里程计](docs/micro_courses/07_local_odometry/README.md) | 10 | 约 2 h |
+| 08 | [滤波与因子图](docs/micro_courses/08_filtering_factor_graphs/README.md) | 10 | 约 2 h |
+| 09 | [SLAM 与全局修正](docs/micro_courses/09_slam_global_correction/README.md) | 10 | 约 2 h |
+| 10 | [重定位与系统设计](docs/micro_courses/10_relocalization_system_design/README.md) | 10 | 约 2 h |
 
-## 你属于哪类读者
+## 每节怎样学
 
-| 目的 | 从哪里开始 | 是否需要阅读学习系统目录 |
+| 环节 | 时间 | 产出 |
+|---|---:|---|
+| 主动回忆 | 1 分钟 | 当前理解或前一课主线 |
+| 聚焦讲解 | 7 分钟 | 一个核心机制、公式与工程含义 |
+| 最小练习 | 3 分钟 | 手算、判断、草图、输入输出或故障预测 |
+| 无稿复述 | 1 分钟 | 一分钟讲解和第一个卡点 |
+
+完整规则见[微课程学习流程](docs/00_learning_system/micro_lesson_workflow.md)。
+
+## 两条学习路径
+
+| 路径 | 适合场景 | 入口 |
 |---|---|---|
-| 跟随仓库学习定位建图 | [学习单元目录](docs/units/README.md) | 不需要 |
-| 查看作者的诊断与进度 | [诊断报告](docs/00_learning_system/diagnostic_report.md)和[进度表](docs/00_learning_system/progress.md) | 按需 |
-| 复用方法学习新领域 | [通用学习系统](docs/00_learning_system/README.md) | 需要 |
-| 运行代码与实验 | 对应单元主页中的实验链接 | 不需要先读方法文档 |
+| 10～15 分钟微课程 | 每天持续推进，降低启动成本 | [100 节微课程](docs/micro_courses/README.md) |
+| 原两小时集中路径 | 完整课程、推导、实验和正式终测 | [传统学习单元](docs/units/README.md) |
 
-`docs/00_learning_system/` 主要面向仓库维护者和想复用方法的人。只想学习定位建图的读者，不必先阅读其中所有文档。
+两条路径共享同一知识主线。微课程负责逐步建立结构；原路径中的实验与终测负责更严格验证。
 
-## 每个单元统一怎么学
+## 学习证据
 
-默认使用一次 120 分钟的第一轮学习，顺序固定为：
+“看过文件”不算完成。每节至少留下：
 
-| 步骤 | 时间 | 做什么 | 主要打开的文件 |
-|---:|---:|---|---|
-| 1 | 5 分钟 | 确认目标并建立自己的工作簿副本 | 单元 `README.md`、`workbook.md` |
-| 2 | 45 分钟 | 连续学习完整课程，记录疑问，不做正式考试 | `lesson.md`，必要时 `notes.md` |
-| 3 | 20 分钟 | 合上课程完成练习和推导，再核对参考推导 | `workbook.md`，完成后看 `derivations.md` |
-| 4 | 25 分钟 | 运行最小实验，改变一个条件并注入一个错误 | 实验 `README.md`、代码、`mistakes.md` |
-| 5 | 20 分钟 | 闭卷终测并完成 5 分钟费曼讲解 | `quiz.md`，提交后看 `quiz_answers.md` |
-| 6 | 5 分钟 | 保存证据、写下一步并安排复习 | `sessions/`、`progress.md`、复习计划 |
+- 一句话结论；
+- 一个可检查的最小练习；
+- 一次合上资料后的复述；
+- 第一个卡点或未解决问题。
 
-详细说明见[两小时单元学习流程](docs/00_learning_system/unit_workflow_2h.md)。
+每单元第 10 节完成一次综合复述。全部进度记录在[20 小时进度表](docs/micro_courses/progress.md)。
 
-本流程采用“**先完整学习，再统一考试**”。全局诊断只在项目启动或阶段复盘时进行；进入每个单元后，不再用频繁的小测打断连续学习。
+## 五种目标能力
 
-## 当前进度
+1. 画清传感器、坐标系、时间和数据流；
+2. 解释主要算法的问题、输入、输出和假设；
+3. 使用关键公式并说明变量、单位、坐标系和时刻；
+4. 观察中间结果，复现失败并定位根因；
+5. 根据传感器、场景、算力和精度要求完成方案取舍。
 
-当前状态：**仓库基线、第一次全局诊断和单元 01 学习材料已经就绪。**
-
-| 单元 | 主题 | 预计用时 | 状态 | 主要产出 |
-|---:|---|---:|---|---|
-| 0 | [基础诊断与能力画像](docs/00_learning_system/diagnostic_report.md) | — | 已完成 | [完整诊断复盘](articles/00_diagnostic_review.md) · [社交平台精简版](articles/00_diagnostic_review_social.md) |
-| 1 | [坐标系与变换链](docs/units/01_coordinate_frames/README.md) | 2 h | 材料就绪 | 推导、终测、变换实验、费曼输出 |
-| 2 | 旋转与刚体位姿 | 2 h | 待开始 | 旋转表示与数值实验 |
-| 3 | 传感器、时间与标定 | 2 h | 待开始 | 时间线、外参和运动补偿实验 |
-| 4 | 最小二乘基础 | 2 h | 待开始 | 投影、秩与加权最小二乘实验 |
-| 5 | 概率与卡尔曼更新 | 2 h | 待开始 | 一维融合与协方差实验 |
-| 6 | IMU 与轮式推算 | 2 h | 待开始 | 比力、重力、零偏和积分实验 |
-| 7 | 局部里程计 | 2 h | 待开始 | 多种里程计对比 |
-| 8 | 滤波与因子图 | 2 h | 待开始 | 递推估计与批量优化对比 |
-| 9 | SLAM 与全局修正 | 2 h | 待开始 | 回环、图优化与 TF 分析 |
-| 10 | 重定位与综合设计 | 2 h | 待开始 | 场景方案设计与评审 |
-
-全部单元入口见[学习单元目录](docs/units/README.md)，详细状态见[学习进度表](docs/00_learning_system/progress.md)，阶段目标见[ROADMAP](ROADMAP.md)。
-
-## 希望练成的五种能力
-
-1. 能画清传感器、坐标系、时间和数据流；
-2. 能解释主要算法解决的问题、输入、输出和假设；
-3. 能读懂并使用关键公式，说明变量、单位和坐标系；
-4. 能运行参考代码、观察中间结果并分析失败原因；
-5. 能根据传感器、场景、算力和精度要求选择方案。
-
-“看完文档”不等于完成。一个单元至少要留下自己的练习过程、实验解释、终测答案、错误记录和复习日期。
-
-## 仓库结构
-
-| 路径 | 内容 | 普通学习者什么时候使用 |
-|---|---|---|
-| `docs/units/` | 各学习单元的课程、工作簿、测验和答案 | 主要入口，全程使用 |
-| `experiments/` | 可运行的最小实验 | 单元实验步骤时使用 |
-| `src/`、`tests/` | 可复用代码与自动检查 | 运行或修改实验时使用 |
-| `docs/00_learning_system/` | 通用方法、学习地图、进度和复习规则 | 想理解或复用方法时使用 |
-| `articles/` | 可独立发布的阶段复盘文章 | 阅读作者总结时使用 |
-| `references/` | 教材、论文、术语和公开资源 | 单元明确引用时再使用 |
-| `data/` | 小型合成数据或公开样例说明 | 实验需要时使用 |
-
-## 快速运行代码
+## 现有实验与代码
 
 需要 Python 3.10 或更高版本。
 
@@ -101,58 +85,11 @@ pytest
 python experiments/exp_001_transform_chain/run.py
 ```
 
-也可以使用：
+原有实验、源码、测试、学习系统、文章与参考资料均保留。新增微课程只改变学习入口和颗粒度，不删除原材料。
 
-```bash
-make install
-make check
-make experiment
-```
-
-第一个实验验证：变换链的相邻坐标系必须衔接，复合变换与逐步变换结果一致，刚体变换的逆不能直接写成齐次矩阵的转置。
-
-## 默认数学约定
-
-除非单个实验另行声明，本仓库采用：
-
-- 右—前—上坐标轴；
-- 右手系；
-- 列向量与左乘。
-
-坐标变换统一写作：
-
-$$
-{}^{A}\mathbf p = {}^{A}\mathbf T_B{}^{B}\mathbf p
-$$
-
-它表示把点在坐标系 $B$ 中的坐标映射为同一点在坐标系 $A$ 中的坐标。完整约定见[全局约定](docs/00_learning_system/conventions.md)。
-
-## 状态与复习
-
-- `未开始`：尚未建立个人会话记录；
-- `学习中`：已经开始，但练习、实验或终测尚未完成；
-- `待复习`：首次学习证据齐全并达到当天标准；
-- `已掌握`：经过延迟复习、变化条件和后续综合任务验证。
-
-当天答对不能直接标记为“已掌握”。复习默认安排在当天、第 1、3、7、14、30 天，详见[复习计划](docs/00_learning_system/review_schedule.md)。
-
-## 数据与公开边界
-
-这是公开仓库。不得提交公司代码、内部文档、真实项目日志、地图、标定结果、密钥、车辆标识、位置或其他敏感信息。大型公开数据集只记录下载地址和处理方式，不直接提交原始数据。详见[data/README.md](data/README.md)。
-
-## 文档校验
-
-新增或修改 Markdown 后运行：
-
-```bash
-make markdown
-```
-
-并在 GitHub Preview 与 Typora 中检查公式、相对链接、图片和代码围栏。完整规范见[CONTRIBUTING.md](CONTRIBUTING.md)。
-
-## 参与和许可
-
-欢迎通过 Issue 指出概念错误、实验缺陷或资料建议。
+## 文档与许可
 
 - 源代码使用 [MIT License](LICENSE)；
-- 文档、文章和图示使用 [CC BY 4.0](LICENSE-DOCS)。
+- 文档、文章和图示使用 [CC BY 4.0](LICENSE-DOCS)；
+- 提交 Markdown 前可运行 `make markdown`；
+- 课程结构可运行 `pytest tests/test_micro_course_structure.py` 校验。
